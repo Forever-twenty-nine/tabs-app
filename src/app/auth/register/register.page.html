@@ -1,0 +1,137 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Crear Cuenta</ion-title>
+    <ion-button 
+      slot="start" 
+      fill="clear" 
+      (click)="goToWelcome()">
+      <ion-icon name="arrow-back-outline"></ion-icon>
+    </ion-button>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="register-content">
+  <div class="register-container">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title class="text-center">Registro de Usuario</ion-card-title>
+      </ion-card-header>
+      
+      <ion-card-content>
+        <!-- Campo Nombre -->
+        <ion-item>
+          <ion-icon name="person-outline" slot="start"></ion-icon>
+          <ion-label position="stacked">Nombre Completo *</ion-label>
+          <ion-input 
+            type="text" 
+            [(ngModel)]="formData.nombre" 
+            placeholder="Ingresa tu nombre completo">
+          </ion-input>
+        </ion-item>
+
+        <!-- Campo Usuario -->
+        <ion-item>
+          <ion-icon name="person-outline" slot="start"></ion-icon>
+          <ion-label position="stacked">Usuario *</ion-label>
+          <ion-input 
+            type="text" 
+            [(ngModel)]="formData.username" 
+            placeholder="Elige un nombre de usuario">
+          </ion-input>
+        </ion-item>
+
+        <!-- Campo Email -->
+        <ion-item>
+          <ion-icon name="mail-outline" slot="start"></ion-icon>
+          <ion-label position="stacked">Email *</ion-label>
+          <ion-input 
+            type="email" 
+            [(ngModel)]="formData.email" 
+            placeholder="Ingresa tu email">
+          </ion-input>
+        </ion-item>
+
+        <!-- Campo Rol -->
+        <ion-item>
+          <ion-icon name="people-outline" slot="start"></ion-icon>
+          <ion-label position="stacked">Tipo de Usuario *</ion-label>
+          <ion-select 
+            [(ngModel)]="formData.role" 
+            placeholder="Selecciona tu rol">
+            <ion-select-option value="cliente">Cliente</ion-select-option>
+            <ion-select-option value="entrenador">Entrenador</ion-select-option>
+            <ion-select-option value="gimnasio">Gimnasio</ion-select-option>
+          </ion-select>
+        </ion-item>
+
+        <!-- Descripción del rol -->
+        <ion-text color="medium" *ngIf="formData.role">
+          <p class="role-description">
+            <ion-icon name="information-circle-outline"></ion-icon>
+            {{ getRoleDescription(formData.role) }}
+          </p>
+        </ion-text>
+
+        <!-- Campo Contraseña -->
+        <ion-item>
+          <ion-icon name="lock-closed-outline" slot="start"></ion-icon>
+          <ion-label position="stacked">Contraseña *</ion-label>
+          <ion-input 
+            type="password" 
+            [(ngModel)]="formData.password" 
+            placeholder="Mínimo 6 caracteres">
+          </ion-input>
+        </ion-item>
+
+        <!-- Campo Confirmar Contraseña -->
+        <ion-item>
+          <ion-icon name="lock-closed-outline" slot="start"></ion-icon>
+          <ion-label position="stacked">Confirmar Contraseña *</ion-label>
+          <ion-input 
+            type="password" 
+            [(ngModel)]="formData.confirmPassword" 
+            placeholder="Repite tu contraseña">
+          </ion-input>
+        </ion-item>
+
+        <!-- Mensaje de Error -->
+        <ion-text color="danger" *ngIf="errorMessage">
+          <p class="error-text">{{ errorMessage }}</p>
+        </ion-text>
+
+        <!-- Mensaje de Éxito -->
+        <ion-text color="success" *ngIf="successMessage">
+          <p class="success-text">
+            <ion-icon name="checkmark-circle-outline"></ion-icon>
+            {{ successMessage }}
+          </p>
+        </ion-text>
+
+        <!-- Botón de Registro -->
+        <ion-button 
+          expand="block" 
+          fill="solid" 
+          (click)="register()" 
+          class="register-button"
+          [disabled]="successMessage">
+          Crear Cuenta
+        </ion-button>
+
+        <!-- Enlace para ir al Login -->
+        <div class="login-link">
+          <ion-text color="medium">
+            <p>¿Ya tienes cuenta? 
+              <ion-button 
+                fill="clear" 
+                size="small" 
+                (click)="goToLogin()">
+                Inicia Sesión
+              </ion-button>
+            </p>
+          </ion-text>
+        </div>
+
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>

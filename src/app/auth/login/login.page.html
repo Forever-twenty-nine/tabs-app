@@ -1,0 +1,70 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-button 
+      slot="start" 
+      fill="clear" 
+      (click)="goToWelcome()">
+      <ion-icon name="arrow-back-outline"></ion-icon>
+    </ion-button>
+    <ion-title>Iniciar Sesión</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="login-content">
+  <div class="login-container">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title class="text-center">Bienvenido</ion-card-title>
+      </ion-card-header>
+      
+      <ion-card-content>
+        <ion-item>
+          <ion-icon name="person-outline" slot="start"></ion-icon>
+          <ion-label position="stacked">Usuario</ion-label>
+          <ion-input 
+            type="text" 
+            [(ngModel)]="username" 
+            placeholder="Ingresa tu usuario">
+          </ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-icon name="lock-closed-outline" slot="start"></ion-icon>
+          <ion-label position="stacked">Contraseña</ion-label>
+          <ion-input 
+            type="password" 
+            [(ngModel)]="password" 
+            placeholder="Ingresa tu contraseña">
+          </ion-input>
+        </ion-item>
+
+        <ion-text color="danger" *ngIf="errorMessage">
+          <p class="error-text">{{ errorMessage }}</p>
+        </ion-text>
+
+        <ion-button 
+          expand="block" 
+          fill="solid" 
+          (click)="login()" 
+          class="login-button">
+          Iniciar Sesión
+        </ion-button>
+
+        <!-- Enlace para crear cuenta -->
+        <div class="register-link">
+          <ion-text color="medium">
+            <p>¿No tienes cuenta? 
+              <ion-button 
+                fill="clear" 
+                size="small" 
+                (click)="goToRegister()">
+                Crear Cuenta
+              </ion-button>
+            </p>
+          </ion-text>
+        </div>
+
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>

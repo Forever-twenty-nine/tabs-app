@@ -1,0 +1,117 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Bienvenido a FitApp</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="welcome-content">
+  <div class="welcome-container">
+    
+    <!-- Hero Section -->
+    <div class="hero-section">
+      <div class="hero-content">
+        <ion-icon name="fitness-outline" class="hero-icon"></ion-icon>
+        <h1 class="hero-title">¡Transforma tu Vida!</h1>
+        <p class="hero-subtitle">
+          Únete a la mejor plataforma de fitness y alcanza tus metas con 
+          entrenamientos personalizados y seguimiento profesional
+        </p>
+      </div>
+    </div>
+
+    <!-- Features Grid -->
+    <ion-grid class="features-grid">
+      <ion-row>
+        <ion-col size="6" *ngFor="let feature of features">
+          <div class="feature-card">
+            <ion-icon [name]="feature.icon" class="feature-icon"></ion-icon>
+            <h3 class="feature-title">{{ feature.title }}</h3>
+            <p class="feature-description">{{ feature.description }}</p>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+    <!-- Action Buttons -->
+    <div class="action-section">
+      <ion-card class="action-card highlighted">
+        <ion-card-header>
+          <ion-card-title class="action-title">
+            <ion-icon name="person-add-outline"></ion-icon>
+            ¡Comienza Hoy!
+          </ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <p class="action-description">
+            Crea tu cuenta gratuita y empieza tu transformación ahora mismo. 
+            ¡Es rápido y fácil!
+          </p>
+          <ion-button 
+            expand="block" 
+            fill="solid" 
+            size="large"
+            color="primary"
+            (click)="goToRegister()" 
+            class="primary-button">
+            <ion-icon name="person-add-outline" slot="start"></ion-icon>
+            Crear Cuenta Gratis
+            <ion-icon name="arrow-forward-outline" slot="end"></ion-icon>
+          </ion-button>
+        </ion-card-content>
+      </ion-card>
+
+      <ion-card class="action-card">
+        <ion-card-header>
+          <ion-card-title class="action-title secondary">
+            <ion-icon name="log-in-outline"></ion-icon>
+            ¿Ya tienes cuenta?
+          </ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <p class="action-description">
+            Accede a tu cuenta y continúa con tu rutina de entrenamiento.
+          </p>
+          <ion-button 
+            expand="block" 
+            fill="outline" 
+            size="large"
+            color="medium"
+            (click)="goToLogin()" 
+            class="secondary-button">
+            <ion-icon name="log-in-outline" slot="start"></ion-icon>
+            Iniciar Sesión
+          </ion-button>
+        </ion-card-content>
+      </ion-card>
+    </div>
+
+    <!-- Benefits Section -->
+    <div class="benefits-section">
+      <ion-text color="medium">
+        <h2 class="benefits-title">¿Por qué elegir FitApp?</h2>
+        <div class="benefits-list">
+          <div class="benefit-item">
+            <ion-icon name="trophy-outline" color="primary"></ion-icon>
+            <span>Resultados comprobados</span>
+          </div>
+          <div class="benefit-item">
+            <ion-icon name="people-outline" color="primary"></ion-icon>
+            <span>Comunidad activa</span>
+          </div>
+          <div class="benefit-item">
+            <ion-icon name="stats-chart-outline" color="primary"></ion-icon>
+            <span>Seguimiento detallado</span>
+          </div>
+        </div>
+      </ion-text>
+    </div>
+
+    <!-- Call to Action Footer -->
+    <div class="cta-footer">
+      <ion-text class="cta-text">
+        <p>¡Tu transformación empieza aquí!</p>
+      </ion-text>
+    </div>
+
+  </div>
+</ion-content>
