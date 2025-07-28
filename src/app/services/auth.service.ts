@@ -29,10 +29,6 @@ export class AuthService {
     
     if (username === 'gimnasio' && password === 'gym123') {
       user = { username: 'gimnasio', role: 'gimnasio' };
-    } else if (username === 'usuario' && password === '123456') {
-      user = { username: 'usuario', role: 'user' };
-    } else if (username === 'manager' && password === 'manager123') {
-      user = { username: 'manager', role: 'gimnasio' };
     } else if (username === 'cliente' && password === 'cliente123') {
       user = { username: 'cliente', role: 'cliente' };
     } else if (username === 'entrenador' && password === 'trainer123') {
