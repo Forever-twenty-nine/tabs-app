@@ -33,7 +33,6 @@ import { Objetivo } from '../../enums/objetivo.enum';
 @Component({
   selector: 'app-onboarding',
   templateUrl: 'onboarding.page.html',
-  styleUrls: ['onboarding.page.css'],
   standalone: true,
   imports: [
     CommonModule,

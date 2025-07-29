@@ -27,7 +27,6 @@ import {
 @Component({
   selector: 'app-gimnasio-dashboard',
   templateUrl: 'gimnasio-dashboard.page.html',
-  styleUrls: ['gimnasio-dashboard.page.css'],
   standalone: true,
   imports: [
     IonHeader,

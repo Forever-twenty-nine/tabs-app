@@ -17,7 +17,6 @@ import {
 @Component({
   selector: 'app-gimnasio-tabs',
   templateUrl: 'gimnasio-tabs.page.html',
-  styleUrls: ['gimnasio-tabs.page.css'],
   standalone: true,
   imports: [IonTabs, IonTabBar, IonTabButton, IonIcon, IonLabel],
 })

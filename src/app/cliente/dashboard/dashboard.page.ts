@@ -25,9 +25,6 @@ import {
   statsChartOutline, 
   fitnessOutline, 
   personOutline, 
-  calendarOutline,
-  trophyOutline,
-  timeOutline,
   checkmarkCircleOutline
 } from 'ionicons/icons';
 import { AuthService } from '../../services/auth.service';
@@ -65,8 +62,6 @@ export class DashboardPage implements OnInit {
   clienteInfo = {
     nombre: 'Ana García',
     entrenador: 'Carlos Martínez',
-    rutinasAsignadas: 3,
-    proximaSesion: '2025-07-29 10:00',
     objetivoActual: 'Pérdida de peso',
     progreso: 75
   };
@@ -85,9 +80,6 @@ export class DashboardPage implements OnInit {
       statsChartOutline,
       fitnessOutline,
       personOutline,
-      calendarOutline,
-      trophyOutline,
-      timeOutline,
       checkmarkCircleOutline
     });
   }

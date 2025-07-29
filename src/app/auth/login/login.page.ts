@@ -25,7 +25,6 @@ import { AuthService } from '../../services/auth.service';
 @Component({
   selector: 'app-login',
   templateUrl: 'login.page.html',
-  styleUrls: ['login.page.css'],
   standalone: true,
   imports: [
     CommonModule,

@@ -1,25 +1,13 @@
+/* 
+ * Gimnasio Users Page Styles
+ * Los estilos comunes ahora están centralizados en global.css
+ * Aquí solo van estilos específicos de esta página
+ */
+
 .users-container {
   padding: 16px 0;
 }
 
-ion-avatar {
-  width: 40px;
-  height: 40px;
-  background: var(--ion-color-light);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-ion-avatar ion-icon {
-  font-size: 24px;
-  color: var(--ion-color-medium);
-}
-
 .status-badge {
   margin-left: 8px;
-}
-
-ion-badge {
-  margin-right: 4px;
 }
