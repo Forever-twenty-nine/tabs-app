@@ -1,12 +1,9 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { 
   IonContent, 
-  IonHeader, 
-  IonTitle, 
-  IonToolbar,
   IonCard,
   IonCardHeader,
   IonCardTitle,
@@ -16,17 +13,12 @@ import {
   IonInput,
   IonButton,
   IonText,
-  IonIcon,
-  IonSelect,
-  IonSelectOption
+  IonIcon
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { 
-  personOutline, 
   lockClosedOutline, 
-  mailOutline, 
-  peopleOutline, 
-  informationCircleOutline,
+  mailOutline,
   checkmarkCircleOutline,
   arrowBackOutline
 } from 'ionicons/icons';
@@ -35,14 +27,11 @@ import { AuthService } from '../../services/auth.service';
 @Component({
   selector: 'app-register',
   templateUrl: 'register.page.html',
-  styleUrls: ['register.page.scss'],
+  styleUrls: ['register.page.css'],
   standalone: true,
   imports: [
     CommonModule,
     IonContent,
-    IonHeader,
-    IonTitle,
-    IonToolbar,
     IonCard,
     IonCardHeader,
     IonCardTitle,
@@ -53,37 +42,93 @@ import { AuthService } from '../../services/auth.service';
     IonButton,
     IonText,
     IonIcon,
-    IonSelect,
-    IonSelectOption,
-    FormsModule
+    ReactiveFormsModule
   ]
 })
 export class RegisterPage {
-  formData = {
-    username: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
-    nombre: '',
-    role: 'cliente' as 'cliente' | 'entrenador' | 'gimnasio'
-  };
-  
+  registerForm: FormGroup;
   errorMessage: string = '';
   successMessage: string = '';
+  isSubmitDisabled: boolean = true;
 
   constructor(
-    private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private formBuilder: FormBuilder,
+    private authService: AuthService
   ) {
     addIcons({ 
-      personOutline, 
       lockClosedOutline, 
       mailOutline,
-      peopleOutline,
-      informationCircleOutline,
       checkmarkCircleOutline,
       arrowBackOutline
     });
+
+    // Crear el formulario reactivo
+    this.registerForm = this.formBuilder.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(6)]],
+      confirmPassword: ['', [Validators.required]]
+    }, {
+      validators: this.passwordMatchValidator
+    });
+
+    // Suscribirse a cambios del formulario para actualizar el estado del botón
+    this.registerForm.statusChanges.subscribe(() => {
+      this.updateSubmitButtonState();
+    });
+
+    this.registerForm.valueChanges.subscribe(() => {
+      this.updateSubmitButtonState();
+    });
+
+    // Inicializar el estado del botón
+    this.updateSubmitButtonState();
+  }
+
+  /**
+   * Actualiza el estado del botón de envío
+   */
+  private updateSubmitButtonState(): void {
+    this.isSubmitDisabled = !this.registerForm.valid || !!this.successMessage;
+  }
+
+  /**
+   * Validador personalizado para verificar que las contraseñas coincidan
+   */
+  passwordMatchValidator(form: FormGroup) {
+    const password = form.get('password');
+    const confirmPassword = form.get('confirmPassword');
+    
+    if (password && confirmPassword && password.value && confirmPassword.value) {
+      if (password.value !== confirmPassword.value) {
+        return { passwordMismatch: true };
+      }
+    }
+    
+    return null;
+  }
+
+  /**
+   * Getter para acceder fácilmente a los controles del formulario
+   */
+  get f() {
+    return this.registerForm.controls;
+  }
+
+  /**
+   * Verifica si un campo específico es válido y ha sido tocado o tiene contenido
+   */
+  isFieldValid(fieldName: string): boolean {
+    const field = this.registerForm.get(fieldName);
+    return !!(field && field.valid && (field.touched || field.value));
+  }
+
+  /**
+   * Verifica si un campo específico es inválido y ha sido tocado o tiene contenido
+   */
+  isFieldInvalid(fieldName: string): boolean {
+    const field = this.registerForm.get(fieldName);
+    return !!(field && field.invalid && (field.touched || field.value));
   }
 
   /**
@@ -92,29 +137,26 @@ export class RegisterPage {
   validateForm(): boolean {
     this.errorMessage = '';
 
-    if (!this.formData.username || !this.formData.email || !this.formData.password || 
-        !this.formData.confirmPassword || !this.formData.nombre) {
-      this.errorMessage = 'Por favor, completa todos los campos obligatorios';
-      return false;
-    }
-
-    if (this.formData.username.length < 3) {
-      this.errorMessage = 'El usuario debe tener al menos 3 caracteres';
-      return false;
-    }
-
-    if (!this.isValidEmail(this.formData.email)) {
-      this.errorMessage = 'Por favor, ingresa un email válido';
-      return false;
-    }
-
-    if (this.formData.password.length < 6) {
-      this.errorMessage = 'La contraseña debe tener al menos 6 caracteres';
-      return false;
-    }
-
-    if (this.formData.password !== this.formData.confirmPassword) {
-      this.errorMessage = 'Las contraseñas no coinciden';
+    if (this.registerForm.invalid) {
+      if (this.f['email'].errors) {
+        if (this.f['email'].errors['required']) {
+          this.errorMessage = 'El email es requerido';
+        } else if (this.f['email'].errors['email']) {
+          this.errorMessage = 'Por favor, ingresa un email válido';
+        }
+      } else if (this.f['password'].errors) {
+        if (this.f['password'].errors['required']) {
+          this.errorMessage = 'La contraseña es requerida';
+        } else if (this.f['password'].errors['minlength']) {
+          this.errorMessage = 'La contraseña debe tener al menos 6 caracteres';
+        }
+      } else if (this.f['confirmPassword'].errors) {
+        if (this.f['confirmPassword'].errors['required']) {
+          this.errorMessage = 'La confirmación de contraseña es requerida';
+        } else if (this.f['confirmPassword'].errors['passwordMismatch']) {
+          this.errorMessage = 'Las contraseñas no coinciden';
+        }
+      }
       return false;
     }
 
@@ -122,7 +164,7 @@ export class RegisterPage {
   }
 
   /**
-   * Valida formato de email
+   * Valida formato de email (ya no es necesario, Validators.email lo maneja)
    */
   isValidEmail(email: string): boolean {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -130,9 +172,26 @@ export class RegisterPage {
   }
 
   /**
+   * Genera un username automáticamente basado en el email
+   */
+  generateUsername(email: string): string {
+    // Extraer la parte antes del @ y limpiarla
+    const username = email.split('@')[0]
+      .replace(/[^a-zA-Z0-9]/g, '') // Remover caracteres especiales
+      .toLowerCase();
+    
+    // Agregar timestamp para evitar duplicados
+    const timestamp = Date.now().toString().slice(-4);
+    return `${username}${timestamp}`;
+  }
+
+  /**
    * Registra un nuevo usuario
    */
   async register() {
+    // Marcar todos los campos como tocados para mostrar errores
+    this.registerForm.markAllAsTouched();
+
     if (!this.validateForm()) {
       return;
     }
@@ -141,22 +200,26 @@ export class RegisterPage {
       this.errorMessage = '';
       this.successMessage = '';
 
+      const formValues = this.registerForm.value;
+
+      // Generar username automáticamente
+      const generatedUsername = this.generateUsername(formValues.email);
+
       // Llamar al servicio de registro
       const result = await this.authService.register({
-        username: this.formData.username,
-        email: this.formData.email,
-        password: this.formData.password,
-        nombre: this.formData.nombre,
-        role: this.formData.role
+        username: generatedUsername,
+        email: formValues.email,
+        password: formValues.password
       });
 
       if (result.success) {
-        this.successMessage = '¡Registro exitoso! Redirigiendo al login...';
+        this.successMessage = '¡Registro exitoso! Redirigiendo...';
+        this.updateSubmitButtonState(); // Actualizar estado del botón
         
-        // Simular delay y redirigir
+        // Redirigir al onboarding después del registro
         setTimeout(() => {
-          this.router.navigate(['/login']);
-        }, 2000);
+          this.router.navigate(['/onboarding']);
+        }, 1500);
       } else {
         this.errorMessage = result.message;
       }
@@ -182,18 +245,9 @@ export class RegisterPage {
   }
 
   /**
-   * Obtiene el texto descriptivo del rol seleccionado
+   * Navega directamente al onboarding (solo para testing)
    */
-  getRoleDescription(role: string): string {
-    switch (role) {
-      case 'cliente':
-        return 'Acceso a entrenamientos y seguimiento de progreso';
-      case 'entrenador':
-        return 'Gestión de clientes y creación de rutinas';
-      case 'gimnasio':
-        return 'Administración completa del gimnasio';
-      default:
-        return '';
-    }
+  goToOnboarding() {
+    this.router.navigate(['/onboarding']);
   }
 }

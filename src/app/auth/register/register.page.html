@@ -1,107 +1,64 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>Crear Cuenta</ion-title>
-    <ion-button 
-      slot="start" 
-      fill="clear" 
-      (click)="goToWelcome()">
-      <ion-icon name="arrow-back-outline"></ion-icon>
-    </ion-button>
-  </ion-toolbar>
-</ion-header>
+<ion-content [fullscreen]="true" style="--background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+  <!-- Botón de volver flotante -->
+  <ion-button 
+    fill="clear" 
+    size="large"
+    (click)="goToWelcome()"
+    style="position: absolute; top: 20px; left: 20px; z-index: 1000; color: white; --background: rgba(255, 255, 255, 0.1); --background-hover: rgba(255, 255, 255, 0.2); backdrop-filter: blur(10px); border-radius: 50%; width: 48px; height: 48px;">
+    <ion-icon name="arrow-back-outline" style="font-size: 24px;"></ion-icon>
+  </ion-button>
 
-<ion-content [fullscreen]="true" class="register-content">
-  <div class="register-container">
-    <ion-card>
-      <ion-card-header>
-        <ion-card-title class="text-center">Registro de Usuario</ion-card-title>
+  <div class="flex justify-center items-center min-h-screen p-5 md:p-4">
+    <ion-card class="w-full max-w-md mx-auto rounded-2xl shadow-2xl md:max-w-full" style="margin-top: 60px;">
+      <ion-card-header class="text-center pb-0">
+        <ion-card-title class="text-4xl font-bold text-center md:text-3xl" style="color: var(--ion-color-primary); margin-bottom: 10px;">Crear Cuenta</ion-card-title>
+        <p class="text-base text-center" style="color: var(--ion-color-medium); margin: 0;">Ingresa tus credenciales básicas</p>
       </ion-card-header>
       
       <ion-card-content>
-        <!-- Campo Nombre -->
-        <ion-item>
-          <ion-icon name="person-outline" slot="start"></ion-icon>
-          <ion-label position="stacked">Nombre Completo *</ion-label>
-          <ion-input 
-            type="text" 
-            [(ngModel)]="formData.nombre" 
-            placeholder="Ingresa tu nombre completo">
-          </ion-input>
-        </ion-item>
+        <form [formGroup]="registerForm">
+          <!-- Campo Email -->
+          <ion-item class="mb-4 rounded-lg" [class.item-valid]="isFieldValid('email')" [class.item-invalid]="isFieldInvalid('email')" style="--background: var(--ion-color-light);">
+            <ion-icon name="mail-outline" slot="start"></ion-icon>
+            <ion-label position="stacked">Email *</ion-label>
+            <ion-input 
+              type="email" 
+              formControlName="email"
+              placeholder="Ingresa tu email">
+            </ion-input>
+          </ion-item>
 
-        <!-- Campo Usuario -->
-        <ion-item>
-          <ion-icon name="person-outline" slot="start"></ion-icon>
-          <ion-label position="stacked">Usuario *</ion-label>
-          <ion-input 
-            type="text" 
-            [(ngModel)]="formData.username" 
-            placeholder="Elige un nombre de usuario">
-          </ion-input>
-        </ion-item>
+          <!-- Campo Contraseña -->
+          <ion-item class="mb-4 rounded-lg" [class.item-valid]="isFieldValid('password')" [class.item-invalid]="isFieldInvalid('password')" style="--background: var(--ion-color-light);">
+            <ion-icon name="lock-closed-outline" slot="start"></ion-icon>
+            <ion-label position="stacked">Contraseña *</ion-label>
+            <ion-input 
+              type="password" 
+              formControlName="password"
+              placeholder="Mínimo 6 caracteres">
+            </ion-input>
+          </ion-item>
 
-        <!-- Campo Email -->
-        <ion-item>
-          <ion-icon name="mail-outline" slot="start"></ion-icon>
-          <ion-label position="stacked">Email *</ion-label>
-          <ion-input 
-            type="email" 
-            [(ngModel)]="formData.email" 
-            placeholder="Ingresa tu email">
-          </ion-input>
-        </ion-item>
-
-        <!-- Campo Rol -->
-        <ion-item>
-          <ion-icon name="people-outline" slot="start"></ion-icon>
-          <ion-label position="stacked">Tipo de Usuario *</ion-label>
-          <ion-select 
-            [(ngModel)]="formData.role" 
-            placeholder="Selecciona tu rol">
-            <ion-select-option value="cliente">Cliente</ion-select-option>
-            <ion-select-option value="entrenador">Entrenador</ion-select-option>
-            <ion-select-option value="gimnasio">Gimnasio</ion-select-option>
-          </ion-select>
-        </ion-item>
-
-        <!-- Descripción del rol -->
-        <ion-text color="medium" *ngIf="formData.role">
-          <p class="role-description">
-            <ion-icon name="information-circle-outline"></ion-icon>
-            {{ getRoleDescription(formData.role) }}
-          </p>
-        </ion-text>
-
-        <!-- Campo Contraseña -->
-        <ion-item>
-          <ion-icon name="lock-closed-outline" slot="start"></ion-icon>
-          <ion-label position="stacked">Contraseña *</ion-label>
-          <ion-input 
-            type="password" 
-            [(ngModel)]="formData.password" 
-            placeholder="Mínimo 6 caracteres">
-          </ion-input>
-        </ion-item>
-
-        <!-- Campo Confirmar Contraseña -->
-        <ion-item>
-          <ion-icon name="lock-closed-outline" slot="start"></ion-icon>
-          <ion-label position="stacked">Confirmar Contraseña *</ion-label>
-          <ion-input 
-            type="password" 
-            [(ngModel)]="formData.confirmPassword" 
-            placeholder="Repite tu contraseña">
-          </ion-input>
-        </ion-item>
+          <!-- Campo Confirmar Contraseña -->
+          <ion-item class="mb-4 rounded-lg" [class.item-valid]="isFieldValid('confirmPassword')" [class.item-invalid]="isFieldInvalid('confirmPassword')" style="--background: var(--ion-color-light);">
+            <ion-icon name="lock-closed-outline" slot="start"></ion-icon>
+            <ion-label position="stacked">Confirmar Contraseña *</ion-label>
+            <ion-input 
+              type="password" 
+              formControlName="confirmPassword"
+              placeholder="Repite tu contraseña">
+            </ion-input>
+          </ion-item>
+        </form>
 
         <!-- Mensaje de Error -->
         <ion-text color="danger" *ngIf="errorMessage">
-          <p class="error-text">{{ errorMessage }}</p>
+          <p class="text-center my-4 mx-0 text-sm" style="color: var(--ion-color-danger);">{{ errorMessage }}</p>
         </ion-text>
 
         <!-- Mensaje de Éxito -->
         <ion-text color="success" *ngIf="successMessage">
-          <p class="success-text">
+          <p class="text-center my-4 mx-0 text-sm flex items-center justify-center gap-2" style="color: var(--ion-color-success);">
             <ion-icon name="checkmark-circle-outline"></ion-icon>
             {{ successMessage }}
           </p>
@@ -113,14 +70,14 @@
           fill="solid" 
           (click)="register()" 
           class="register-button"
-          [disabled]="successMessage">
+          [disabled]="isSubmitDisabled">
           Crear Cuenta
         </ion-button>
 
         <!-- Enlace para ir al Login -->
-        <div class="login-link">
+        <div class="text-center mt-5">
           <ion-text color="medium">
-            <p>¿Ya tienes cuenta? 
+            <p class="m-0 text-sm flex items-center justify-center gap-1">¿Ya tienes cuenta? 
               <ion-button 
                 fill="clear" 
                 size="small" 
@@ -129,6 +86,18 @@
               </ion-button>
             </p>
           </ion-text>
+        </div>
+
+        <!-- Botón de Testing - Solo desarrollo -->
+        <div class="text-center mt-2">
+          <ion-button 
+            fill="clear" 
+            size="small" 
+            color="medium"
+            (click)="goToOnboarding()"
+            style="font-size: 10px; height: 20px; --padding-start: 8px; --padding-end: 8px;">
+            🚀 Skip to Onboarding
+          </ion-button>
         </div>
 
       </ion-card-content>

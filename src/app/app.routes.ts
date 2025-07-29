@@ -21,6 +21,14 @@ export const routes: Routes = [
     loadComponent: () => import('./auth/register/register.page').then(m => m.RegisterPage)
   },
   {
+    path: 'onboarding',
+    loadComponent: () => import('./auth/onboarding/onboarding.page').then(m => m.OnboardingPage)
+  },
+  {
+    path: 'test-onboarding',
+    loadComponent: () => import('./auth/onboarding/onboarding.page').then(m => m.OnboardingPage)
+  },
+  {
     path: 'gimnasio-tabs',
     loadChildren: () => import('./gimnasio/gimnasio-tabs/gimnasio-tabs.routes').then((m) => m.routes),
     canActivate: [authGuard, gimnasioGuard]

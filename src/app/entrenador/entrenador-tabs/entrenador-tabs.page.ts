@@ -17,7 +17,7 @@ import {
 @Component({
   selector: 'app-entrenador-tabs',
   templateUrl: './entrenador-tabs.page.html',
-  styleUrls: ['./entrenador-tabs.page.scss'],
+  styleUrls: ['./entrenador-tabs.page.css'],
   standalone: true,
   imports: [
     CommonModule,

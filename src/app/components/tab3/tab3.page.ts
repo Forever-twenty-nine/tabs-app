@@ -19,7 +19,7 @@ import { AuthService, User } from '../../services/auth.service';
 @Component({
   selector: 'app-tab3',
   templateUrl: 'tab3.page.html',
-  styleUrls: ['tab3.page.scss'],
+  styleUrls: ['tab3.page.css'],
   standalone: true,
   imports: [
     CommonModule,
@@ -48,9 +48,15 @@ export class Tab3Page implements OnInit {
     this.currentUser = this.authService.getCurrentUser();
   }
 
-  logout() {
-    this.authService.logout();
-    this.router.navigate(['/login']);
+  async logout() {
+    try {
+      await this.authService.logout();
+      this.router.navigate(['/login']);
+    } catch (error) {
+      console.error('Error during logout:', error);
+      // Aún así navegar a login en caso de error
+      this.router.navigate(['/login']);
+    }
   }
 
   /**

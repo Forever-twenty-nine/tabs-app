@@ -2,10 +2,10 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { 
-  IonContent, 
-  IonHeader, 
-  IonTitle, 
+import {
+  IonContent,
+  IonHeader,
+  IonTitle,
   IonToolbar,
   IonCard,
   IonCardHeader,
@@ -25,7 +25,7 @@ import { AuthService } from '../../services/auth.service';
 @Component({
   selector: 'app-login',
   templateUrl: 'login.page.html',
-  styleUrls: ['login.page.scss'],
+  styleUrls: ['login.page.css'],
   standalone: true,
   imports: [
     CommonModule,
@@ -55,7 +55,7 @@ export class LoginPage {
     private authService: AuthService,
     private router: Router
   ) {
-    addIcons({arrowBackOutline,personOutline,lockClosedOutline});
+    addIcons({ arrowBackOutline, personOutline, lockClosedOutline });
   }
 
   /**
@@ -74,7 +74,7 @@ export class LoginPage {
 
   async login() {
     this.errorMessage = '';
-    
+
     if (!this.email || !this.password) {
       this.errorMessage = 'Por favor, ingresa email y contraseña';
       return;
@@ -84,7 +84,7 @@ export class LoginPage {
       const success = await this.authService.login(this.email, this.password);
       if (success) {
         const user = this.authService.getCurrentUser();
-        
+
         // Redirigir según el rol del usuario
         switch (user?.role) {
           case 'gimnasio':

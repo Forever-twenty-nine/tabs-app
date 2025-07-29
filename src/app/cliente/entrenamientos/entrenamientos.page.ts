@@ -21,7 +21,7 @@ import { fitnessOutline, playOutline, timeOutline } from 'ionicons/icons';
 @Component({
   selector: 'app-entrenamientos',
   templateUrl: './entrenamientos.page.html',
-  styleUrls: ['./entrenamientos.page.scss'],
+  styleUrls: ['./entrenamientos.page.css'],
   standalone: true,
   imports: [
     CommonModule,

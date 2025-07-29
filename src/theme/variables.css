@@ -1,0 +1,8 @@
+/* For information on how to create your own theme, please see:
+   http://ionicframework.com/docs/theming/ */
+
+/* Ionic CSS Variables */
+:root {
+  /* Puedes agregar tus variables CSS personalizadas aquí */
+  --app-primary-color: #3880ff;
+}

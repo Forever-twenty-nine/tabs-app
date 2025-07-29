@@ -15,7 +15,7 @@ import {
 @Component({
   selector: 'app-cliente-tabs',
   templateUrl: './cliente-tabs.page.html',
-  styleUrls: ['./cliente-tabs.page.scss'],
+  styleUrls: ['./cliente-tabs.page.css'],
   standalone: true,
   imports: [
     CommonModule,

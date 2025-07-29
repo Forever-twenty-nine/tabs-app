@@ -1,0 +1,16 @@
+/* Configuración específica de ion-card */
+ion-card {
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+/* Configuración específica de ion-item */
+ion-item {
+  --border-radius: 8px;
+}
+
+/* Configuración del botón de login */
+.login-button {
+  margin-top: 24px;
+  --border-radius: 8px;
+  font-weight: 600;
+}

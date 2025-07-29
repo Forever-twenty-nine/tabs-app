@@ -1,4 +1,4 @@
-// Estilos específicos para las tabs del entrenador
+/* Estilos específicos para las tabs del entrenador */
 ion-tab-bar {
   --background: var(--ion-color-light);
   --color: var(--ion-color-medium);
@@ -8,13 +8,13 @@ ion-tab-bar {
 ion-tab-button {
   --color: var(--ion-color-medium);
   --color-selected: var(--ion-color-warning);
-  
-  &.tab-selected {
-    --color: var(--ion-color-warning);
-  }
 }
 
-// Estilos específicos para cada tipo de tab
+ion-tab-button.tab-selected {
+  --color: var(--ion-color-warning);
+}
+
+/* Estilos específicos para cada tipo de tab */ 
 ion-tab-button[tab="dashboard"] {
   --color-selected: var(--ion-color-primary);
 }

@@ -2,38 +2,46 @@ import { inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 
-export const gimnasioGuard = () => {
-  const authService = inject(AuthService);
-  const router = inject(Router);
-
-  if (authService.isLoggedIn() && authService.isGimnasio()) {
-    return true;
-  } else {
-    router.navigate(['/login']);
-    return false;
-  }
+// Helper function para esperar la inicialización
+const waitForAuthInitialization = async (
+  authService: AuthService, 
+  router: Router, 
+  roleCheckFn: (authService: AuthService) => boolean
+): Promise<boolean> => {
+  return new Promise<boolean>((resolve) => {
+    const checkAuth = () => {
+      if (authService.isInitialized$()) {
+        if (authService.isLoggedIn() && roleCheckFn(authService)) {
+          resolve(true);
+        } else {
+          router.navigate(['/login']);
+          resolve(false);
+        }
+      } else {
+        setTimeout(checkAuth, 50);
+      }
+    };
+    checkAuth();
+  });
 };
 
-export const clienteGuard = () => {
+export const gimnasioGuard = async (): Promise<boolean> => {
   const authService = inject(AuthService);
   const router = inject(Router);
 
-  if (authService.isLoggedIn() && authService.isCliente()) {
-    return true;
-  } else {
-    router.navigate(['/login']);
-    return false;
-  }
+  return waitForAuthInitialization(authService, router, (auth) => auth.isGimnasio());
 };
 
-export const entrenadorGuard = () => {
+export const clienteGuard = async (): Promise<boolean> => {
   const authService = inject(AuthService);
   const router = inject(Router);
 
-  if (authService.isLoggedIn() && authService.isEntrenador()) {
-    return true;
-  } else {
-    router.navigate(['/login']);
-    return false;
-  }
+  return waitForAuthInitialization(authService, router, (auth) => auth.isCliente());
+};
+
+export const entrenadorGuard = async (): Promise<boolean> => {
+  const authService = inject(AuthService);
+  const router = inject(Router);
+
+  return waitForAuthInitialization(authService, router, (auth) => auth.isEntrenador());
 };

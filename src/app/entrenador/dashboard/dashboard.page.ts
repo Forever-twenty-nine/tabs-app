@@ -24,7 +24,7 @@ import { peopleOutline, fitnessOutline, statsChartOutline, calendarOutline } fro
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.page.html',
-  styleUrls: ['./dashboard.page.scss'],
+  styleUrls: ['./dashboard.page.css'],
   standalone: true,
   imports: [
     CommonModule,

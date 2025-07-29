@@ -1,0 +1,56 @@
+/* Estilos específicos para el onboarding */
+
+ion-card {
+  --box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+
+ion-progress-bar {
+  border-radius: 3px;
+}
+
+.register-button {
+  margin-top: 1.5rem;
+  --border-radius: 12px;
+  --background: var(--ion-color-primary);
+  --background-hover: var(--ion-color-primary-shade);
+  font-weight: 600;
+  height: 48px;
+}
+
+ion-item {
+  --border-radius: 12px;
+  --padding-start: 16px;
+  --padding-end: 16px;
+  margin-bottom: 1rem;
+}
+
+ion-input, ion-select {
+  --padding-start: 0;
+}
+
+/* Animaciones suaves */
+.fade-in {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  ion-card {
+    margin: 10px;
+  }
+  
+  ion-card-title {
+    font-size: 1.8rem !important;
+  }
+}

@@ -1,4 +1,4 @@
-// Estilos específicos para las tabs del cliente
+/* Estilos específicos para las tabs del cliente */ 
 ion-tab-bar {
   --background: var(--ion-color-light);
   --color: var(--ion-color-medium);
@@ -8,24 +8,24 @@ ion-tab-bar {
 ion-tab-button {
   --color: var(--ion-color-medium);
   --color-selected: var(--ion-color-primary);
-  
-  &.tab-selected {
-    --color: var(--ion-color-primary);
-  }
 }
 
-// Animaciones para mostrar/ocultar tabs dinámicamente
+ion-tab-button.tab-selected {
+  --color: var(--ion-color-primary);
+}
+
+/* Animaciones para mostrar/ocultar tabs dinámicamente */ 
 ion-tab-button {
   transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
-  
-  &.tab-hidden {
-    opacity: 0;
-    transform: scale(0.8);
-    pointer-events: none;
-  }
 }
 
-// Estilos específicos para cada tipo de tab
+ion-tab-button.tab-hidden {
+  opacity: 0;
+  transform: scale(0.8);
+  pointer-events: none;
+}
+
+/* Estilos específicos para cada tipo de tab */ 
 ion-tab-button[tab="entrenamientos"] {
   --color-selected: var(--ion-color-success);
 }

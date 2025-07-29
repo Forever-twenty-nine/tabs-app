@@ -20,7 +20,7 @@ import { personOutline, createOutline, trashOutline } from 'ionicons/icons';
 @Component({
   selector: 'app-gimnasio-users',
   templateUrl: 'gimnasio-users.page.html',
-  styleUrls: ['gimnasio-users.page.scss'],
+  styleUrls: ['gimnasio-users.page.css'],
   standalone: true,
   imports: [
     CommonModule,
