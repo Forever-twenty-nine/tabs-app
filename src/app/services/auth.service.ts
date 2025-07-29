@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 
 export interface User {
   username: string;
+  email: string;
   role: 'gimnasio' | 'user' | 'cliente' | 'entrenador';
 }
 
@@ -23,16 +24,16 @@ export class AuthService {
     }
   }
 
-  async login(username: string, password: string): Promise<boolean> {
+  async login(email: string, password: string): Promise<boolean> {
     // Simulación de autenticación con diferentes roles
     let user: User | null = null;
     
-    if (username === 'gimnasio' && password === 'gym123') {
-      user = { username: 'gimnasio', role: 'gimnasio' };
-    } else if (username === 'cliente' && password === 'cliente123') {
-      user = { username: 'cliente', role: 'cliente' };
-    } else if (username === 'entrenador' && password === 'trainer123') {
-      user = { username: 'entrenador', role: 'entrenador' };
+    if (email === 'gimnasio@ftn.com' && password === '123456') {
+      user = { username: 'gimnasio', email: 'gimnasio@ftn.com', role: 'gimnasio' };
+    } else if (email === 'cliente@ftn.com' && password === '123456') {
+      user = { username: 'cliente', email: 'cliente@ftn.com', role: 'cliente' };
+    } else if (email === 'entrenador@ftn.com' && password === '123456') {
+      user = { username: 'entrenador', email: 'entrenador@ftn.com', role: 'entrenador' };
     }
     
     if (user) {

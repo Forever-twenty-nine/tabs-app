@@ -47,7 +47,7 @@ import { AuthService } from '../../services/auth.service';
   ]
 })
 export class LoginPage {
-  username: string = '';
+  email: string = '';
   password: string = '';
   errorMessage: string = '';
 
@@ -75,13 +75,13 @@ export class LoginPage {
   async login() {
     this.errorMessage = '';
     
-    if (!this.username || !this.password) {
-      this.errorMessage = 'Por favor, ingresa usuario y contraseña';
+    if (!this.email || !this.password) {
+      this.errorMessage = 'Por favor, ingresa email y contraseña';
       return;
     }
 
     try {
-      const success = await this.authService.login(this.username, this.password);
+      const success = await this.authService.login(this.email, this.password);
       if (success) {
         const user = this.authService.getCurrentUser();
         
@@ -100,7 +100,7 @@ export class LoginPage {
             this.router.navigate(['/cliente-tabs']);
         }
       } else {
-        this.errorMessage = 'Usuario o contraseña incorrectos';
+        this.errorMessage = 'Email o contraseña incorrectos';
       }
     } catch (error) {
       this.errorMessage = 'Error al iniciar sesión';
