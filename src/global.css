@@ -15,7 +15,7 @@
  @import "@ionic/angular/css/core.css";
  @import "@ionic/angular/css/normalize.css";
  @import "@ionic/angular/css/structure.css";
- @import "@ionic/angular/css/typography.css";
+ /* @import "@ionic/angular/css/typography.css"; - Pisa Tailwind */
  @import "@ionic/angular/css/display.css";
  /* Optional Ionic */
  @import "@ionic/angular/css/padding.css";
@@ -45,6 +45,10 @@
  * ---------------------------------------------------------------------------- */
  @import "tailwindcss";
 
+ @theme{
+  /* Creando clases de tailwind */
+  --font-heading: 'Exo', system-ui, sans-serif;
+ }
 
  /* 6) Custom Styles
  * ---------------------------------------------------------------------------- */

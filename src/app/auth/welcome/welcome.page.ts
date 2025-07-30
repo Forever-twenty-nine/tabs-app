@@ -1,20 +1,22 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { 
-  IonContent, 
+import {
+  IonContent,
   IonCard,
   IonCardHeader,
   IonCardTitle,
   IonCardContent,
   IonButton,
   IonIcon,
-  IonText
-} from '@ionic/angular/standalone';
+  IonText,
+  IonTitle,
+  IonToolbar,
+  IonFooter } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { 
-  personAddOutline, 
-  logInOutline, 
+import {
+  personAddOutline,
+  logInOutline,
   fitnessOutline,
   arrowForwardOutline
 } from 'ionicons/icons';
@@ -24,7 +26,7 @@ import {
   templateUrl: 'welcome.page.html',
   styleUrls: ['welcome.page.css'],
   standalone: true,
-  imports: [
+  imports: [IonFooter,
     CommonModule,
     IonContent,
     IonCard,
@@ -33,7 +35,10 @@ import {
     IonCardContent,
     IonButton,
     IonIcon,
-    IonText
+    IonText,
+    IonTitle,
+    IonToolbar,
+    IonFooter
   ]
 })
 export class WelcomePage {
