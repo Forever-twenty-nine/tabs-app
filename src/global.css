@@ -35,14 +35,15 @@
  @import "./theme/variables.css";
 
 
- /* 4) Tailwind Styles (no pisa los estilos de ionic a no ser que se use "!"antes de la clase)
- * ---------------------------------------------------------------------------- */
- @import "tailwindcss";
 
-
- /* 5) Ionic Components
+ /* 4) Ionic Components
  * ---------------------------------------------------------------------------- */
 @import "./theme/ionic-components.css";
+
+
+ /* 5) Tailwind Styles (no pisa los estilos de ionic a no ser que se use "!"antes de la clase)
+ * ---------------------------------------------------------------------------- */
+ @import "tailwindcss";
 
 
  /* 6) Custom Styles
