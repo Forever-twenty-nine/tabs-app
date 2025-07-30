@@ -2,6 +2,23 @@
  * IONIC COMPONENTS - GLOBAL OVERRIDES
  * ============================================================================ */
 
+
+
+  /* Buttons Primary Outline */
+  html.md ion-button[fill="outline"][color="primary"]{
+
+  }
+  html.ios ion-button[fill="outline"][color="primary"]{}
+  /* esto si pisa los estilos de ionic: */
+  /* html.md ion-button[color="primary"][fill="solid"]::part(native){
+    background: blue !important;
+  } */
+
+
+
+
+
+
  ion-card {
    border-radius: var(--app-border-radius-md);
    box-shadow: var(--app-shadow-light);

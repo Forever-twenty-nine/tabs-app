@@ -3,16 +3,8 @@ import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import {
   IonContent,
-  IonCard,
-  IonCardHeader,
-  IonCardTitle,
-  IonCardContent,
   IonButton,
-  IonIcon,
-  IonText,
-  IonTitle,
-  IonToolbar,
-  IonFooter } from '@ionic/angular/standalone';
+} from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import {
   personAddOutline,
@@ -24,21 +16,11 @@ import {
 @Component({
   selector: 'app-welcome',
   templateUrl: 'welcome.page.html',
-  styleUrls: ['welcome.page.css'],
   standalone: true,
-  imports: [IonFooter,
+  imports: [
     CommonModule,
     IonContent,
-    IonCard,
-    IonCardHeader,
-    IonCardTitle,
-    IonCardContent,
     IonButton,
-    IonIcon,
-    IonText,
-    IonTitle,
-    IonToolbar,
-    IonFooter
   ]
 })
 export class WelcomePage {
