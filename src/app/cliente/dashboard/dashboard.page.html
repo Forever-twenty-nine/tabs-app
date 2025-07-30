@@ -14,7 +14,7 @@
   <!-- Información del cliente -->
   <ion-card>
     <ion-card-header>
-      <ion-card-title>Información Personal</ion-card-title>
+      <ion-card-title class="!text-amber-500 dark:!text-indigo-600">Información Personal</ion-card-title>
     </ion-card-header>
     <ion-card-content>
       <ion-grid>
@@ -41,7 +41,7 @@
           </ion-col>
         </ion-row>
       </ion-grid>
-      
+
       <ion-button expand="block" fill="outline" (click)="contactarEntrenador()">
         <ion-icon name="person-outline" slot="start"></ion-icon>
         Contactar Entrenador
@@ -76,17 +76,17 @@
     <ion-card-content>
       <ion-list>
         <ion-item *ngFor="let rutina of rutinasRecientes" button (click)="verRutina(rutina)">
-          <ion-icon 
-            [name]="rutina.completada ? 'checkmark-circle-outline' : 'time-outline'" 
-            [color]="rutina.completada ? 'success' : 'warning'" 
+          <ion-icon
+            [name]="rutina.completada ? 'checkmark-circle-outline' : 'time-outline'"
+            [color]="rutina.completada ? 'success' : 'warning'"
             slot="start">
           </ion-icon>
           <ion-label>
             <h3>{{ rutina.nombre }}</h3>
             <p>Asignada: {{ rutina.fechaAsignada }}</p>
           </ion-label>
-          <ion-chip 
-            slot="end" 
+          <ion-chip
+            slot="end"
             [color]="rutina.completada ? 'success' : 'warning'">
             {{ rutina.completada ? 'Completada' : 'Pendiente' }}
           </ion-chip>

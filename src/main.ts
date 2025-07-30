@@ -7,6 +7,12 @@ import { IonicStorageModule } from '@ionic/storage-angular';
 import { routes } from './app/app.routes';
 import { AppComponent } from './app/app.component';
 
+
+import { applyInitialTheme } from 'theme';
+
+// Apply the initial theme based on user preference or stored value
+applyInitialTheme();
+
 bootstrapApplication(AppComponent, {
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
