@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { 
-  IonContent, 
+import {
+  IonContent,
   IonCard,
   IonCardHeader,
   IonCardTitle,
@@ -13,11 +13,10 @@ import {
   IonInput,
   IonButton,
   IonText,
-  IonIcon
-} from '@ionic/angular/standalone';
+  IonIcon, IonTitle, IonToolbar, IonHeader, IonFooter, IonBackButton } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { 
-  lockClosedOutline, 
+import {
+  lockClosedOutline,
   mailOutline,
   checkmarkCircleOutline,
   arrowBackOutline
@@ -28,7 +27,7 @@ import { AuthService } from '../../services/auth.service';
   selector: 'app-register',
   templateUrl: 'register.page.html',
   standalone: true,
-  imports: [
+  imports: [IonBackButton, IonFooter, IonHeader, IonToolbar, IonTitle,
     CommonModule,
     IonContent,
     IonCard,
@@ -55,8 +54,8 @@ export class RegisterPage {
     private formBuilder: FormBuilder,
     private authService: AuthService
   ) {
-    addIcons({ 
-      lockClosedOutline, 
+    addIcons({
+      lockClosedOutline,
       mailOutline,
       checkmarkCircleOutline,
       arrowBackOutline
@@ -97,13 +96,13 @@ export class RegisterPage {
   passwordMatchValidator(form: FormGroup) {
     const password = form.get('password');
     const confirmPassword = form.get('confirmPassword');
-    
+
     if (password && confirmPassword && password.value && confirmPassword.value) {
       if (password.value !== confirmPassword.value) {
         return { passwordMismatch: true };
       }
     }
-    
+
     return null;
   }
 
@@ -178,7 +177,7 @@ export class RegisterPage {
     const username = email.split('@')[0]
       .replace(/[^a-zA-Z0-9]/g, '') // Remover caracteres especiales
       .toLowerCase();
-    
+
     // Agregar timestamp para evitar duplicados
     const timestamp = Date.now().toString().slice(-4);
     return `${username}${timestamp}`;
@@ -214,7 +213,7 @@ export class RegisterPage {
       if (result.success) {
         this.successMessage = '¡Registro exitoso! Redirigiendo...';
         this.updateSubmitButtonState(); // Actualizar estado del botón
-        
+
         // Redirigir al onboarding después del registro
         setTimeout(() => {
           this.router.navigate(['/onboarding']);

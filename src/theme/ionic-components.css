@@ -5,14 +5,13 @@
 
 
   /* Buttons Primary Outline */
-  html.md ion-button[fill="outline"][color="primary"]{
-
-  }
-  html.ios ion-button[fill="outline"][color="primary"]{}
+  /* html.md ion-button[fill="outline"][color="primary"]{} */
+  /* html.ios ion-button[fill="outline"][color="primary"]{} */
   /* esto si pisa los estilos de ionic: */
   /* html.md ion-button[color="primary"][fill="solid"]::part(native){
     background: blue !important;
   } */
+
 
 
 
