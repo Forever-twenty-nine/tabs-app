@@ -25,18 +25,22 @@
         class="mb-6">
         Regístrate
       </ion-button>
-      <ion-button
-        expand="block"
-        fill="outline"
-        size="large"
-        shape="round"
-        color="secondary"
-        (click)="goToLogin()"
-        class="secondary-button">
-        Iniciar Sesión
-      </ion-button>
+      <div class="flex gap-5 items-center justify-center">
+        <p class="text-white text-center">
+          ¿Tenes una cuenta?
+        </p>
+        <ion-button
+          expand="block"
+          fill="clean"
+          size="default"
+          shape="round"
+          color="primary"
+          (click)="goToLogin()"
+          class="!mt-0">
+          Iniciar Sesión
+        </ion-button>
+      </div>
     </div>
-
   </div>
 
 </ion-content>

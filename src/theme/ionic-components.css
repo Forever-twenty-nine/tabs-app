@@ -4,15 +4,24 @@
 
 
 
-  /* Buttons Primary Outline */
-  /* html.md ion-button[fill="outline"][color="primary"]{} */
-  /* html.ios ion-button[fill="outline"][color="primary"]{} */
-  /* esto si pisa los estilos de ionic: */
-  /* html.md ion-button[color="primary"][fill="solid"]::part(native){
-    background: blue !important;
-  } */
+/* Buttons Primary Outline */
+/* html.md ion-button[fill="outline"][color="primary"]{} */
+/* html.ios ion-button[fill="outline"][color="primary"]{} */
+/* esto si pisa los estilos de ionic: */
+/* html.md ion-button[color="primary"][fill="solid"]::part(native){
+  background: blue !important;
+} */
 
+ion-button.button-large{
+  font-size: 1.1rem;
+}
 
+html.md ion-button[fill="clean"][color="primary"] {
+  --color: var(--ion-color-primary);
+  --background: transparent;
+  --padding-end: 0;
+  --padding-start: 0;
+}
 
 
 
