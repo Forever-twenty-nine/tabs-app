@@ -16,7 +16,8 @@ ion-button.button-large{
   font-size: 1.1rem;
 }
 
-html.md ion-button[fill="clean"][color="primary"] {
+html.md ion-button[fill="clean"][color="primary"],
+html.ios ion-button[fill="clean"][color="primary"] {
   --color: var(--ion-color-primary);
   --background: transparent;
   --padding-end: 0;
@@ -24,7 +25,9 @@ html.md ion-button[fill="clean"][color="primary"] {
 }
 
 
-
+ion-toobar.gym-bg-transparent{
+  --background: red !important;
+}
 
 
  ion-card {

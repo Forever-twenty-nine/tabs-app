@@ -4,16 +4,13 @@ import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angula
 import { CommonModule } from '@angular/common';
 import {
   IonContent,
-  IonCard,
-  IonCardHeader,
-  IonCardTitle,
-  IonCardContent,
   IonItem,
   IonLabel,
   IonInput,
   IonButton,
   IonText,
-  IonIcon, IonTitle, IonToolbar, IonHeader, IonFooter, IonBackButton } from '@ionic/angular/standalone';
+  IonIcon,
+} from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import {
   lockClosedOutline,
@@ -27,15 +24,10 @@ import { AuthService } from '../../services/auth.service';
   selector: 'app-register',
   templateUrl: 'register.page.html',
   standalone: true,
-  imports: [IonBackButton, IonFooter, IonHeader, IonToolbar, IonTitle,
+  imports: [
     CommonModule,
     IonContent,
-    IonCard,
-    IonCardHeader,
-    IonCardTitle,
-    IonCardContent,
     IonItem,
-    IonLabel,
     IonInput,
     IonButton,
     IonText,

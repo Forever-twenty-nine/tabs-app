@@ -2,7 +2,7 @@
 <ion-button
   slot="start"
   fill="clear"
-  class="fixed top-4 left-2 z-10"
+  class="fixed top-4 left-2 z-10 text-white"
   (click)="goToWelcome()">
   <ion-icon name="arrow-back-outline"></ion-icon>
 </ion-button>
@@ -11,115 +11,136 @@
 <ion-content [fullscreen]="true" class="ion-padding" style="--background: url('/assets/images/bg.jpg') no-repeat center center / cover;">
 
   <!-- bg gradient & blur -->
-  <div class="absolute inset-0 z-0">
+  <div class="fixed inset-0 z-0">
     <div class="w-full h-full bg-[url('/assets/images/bg.jpg')] bg-cover bg-center blur-xs"></div>
     <div class="absolute inset-0 bg-gradient-to-b from-transparent via-black/80 to-black pointer-events-none"></div>
   </div>
 
 
   <!-- content -->
-  <div class="z-10 p-2 relative flex items-end justify-center min-h-dvh -mt-12 -mb-12">
+  <div class="z-10 relative flex items-start justify-center ">
 
-    <ion-card class="">
-      <ion-card-header class="text-center pb-0">
-        <ion-card-title class="text-4xl font-bold text-center md:text-3xl" style="color: var(--ion-color-primary); margin-bottom: 10px;">Crear Cuenta</ion-card-title>
-        <p class="text-base text-center" style="color: var(--ion-color-medium); margin: 0;">Ingresa tus credenciales básicas</p>
-      </ion-card-header>
+    <div class="mt-24">
+      <h1 class="text-white font-semibold font-heading text-4xl mb-8">
+        Regístrate
+      </h1>
+      <p class="mb-2 text-white/80">
+        A través de:
+      </p>
+      <ion-button
+        expand="block"
+        fill="outline"
+        size="large"
+        shape="round"
+        color="secondary"
+        class="normal-case mb-6 !mt-0 ">
+        <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" class="w-5 h-5" alt="Google"
+          />
+        <span class="pl-3 text-base">Cuenta de Google</span>
+      </ion-button>
+      <p class="mb-2 text-white/80">
+        O continua con:
+      </p>
+      <form [formGroup]="registerForm">
+        <!-- email -->
+        <ion-item
+          class="mb-4"
+          [class.item-valid]="isFieldValid('email')"
+          [class.item-invalid]="isFieldInvalid('email')">
+          <ion-icon
+            name="mail-outline"
+            slot="start"
+            size="default"
+            aria-hidden="true"
+            class="mr-2">
+          </ion-icon>
+          <ion-input
+            type="email"
+            formControlName="email"
+            placeholder="Ingresa tu email"
+            class="">
+          </ion-input>
+        </ion-item>
+        <!-- password -->
+        <ion-item
+          class="mb-4"
+          [class.item-valid]="isFieldValid('password')"
+          [class.item-invalid]="isFieldInvalid('password')">
+          <ion-icon
+            name="lock-closed-outline"
+            slot="start"
+            size="default"
+            aria-hidden="true"
+            class="mr-2">
+          </ion-icon>
+          <ion-input
+            type="password"
+            formControlName="password"
+            placeholder="Ingresa una contraseña">
+          </ion-input>
+        </ion-item>
+        <!-- confirma password  -->
+        <ion-item
+          class="mb-4"
+          [class.item-valid]="isFieldValid('confirmPassword')"
+          [class.item-invalid]="isFieldInvalid('confirmPassword')">
+          <ion-icon
+            name="lock-closed-outline"
+            slot="start"
+            size="default"
+            aria-hidden="true"
+            class="mr-2">
+          </ion-icon>
+          <ion-input
+            type="password"
+            formControlName="confirmPassword"
+            placeholder="Repite tu contraseña">
+          </ion-input>
+        </ion-item>
+      </form>
 
-      <ion-card-content>
-        <form [formGroup]="registerForm">
-          <!-- Campo Email -->
-          <ion-item class="mb-4 rounded-lg" [class.item-valid]="isFieldValid('email')" [class.item-invalid]="isFieldInvalid('email')" style="--background: var(--ion-color-light);">
-            <ion-icon name="mail-outline" slot="start"></ion-icon>
-            <ion-label position="stacked">Email *</ion-label>
-            <ion-input
-              type="email"
-              formControlName="email"
-              placeholder="Ingresa tu email">
-            </ion-input>
-          </ion-item>
+      <!-- Mensaje de Error -->
+      <ion-text color="danger" *ngIf="errorMessage">
+        <p class="text-center my-4 mx-0 text-sm" style="color: var(--ion-color-danger);">{{ errorMessage }}</p>
+      </ion-text>
 
-          <!-- Campo Contraseña -->
-          <ion-item class="mb-4 rounded-lg" [class.item-valid]="isFieldValid('password')" [class.item-invalid]="isFieldInvalid('password')" style="--background: var(--ion-color-light);">
-            <ion-icon name="lock-closed-outline" slot="start"></ion-icon>
-            <ion-label position="stacked">Contraseña *</ion-label>
-            <ion-input
-              type="password"
-              formControlName="password"
-              placeholder="Mínimo 6 caracteres">
-            </ion-input>
-          </ion-item>
+      <!-- Mensaje de Éxito -->
+      <ion-text color="success" *ngIf="successMessage">
+        <p class="text-center my-4 mx-0 text-sm flex items-center justify-center gap-2" style="color: var(--ion-color-success);">
+          <ion-icon name="checkmark-circle-outline"></ion-icon>
+          {{ successMessage }}
+        </p>
+      </ion-text>
 
-          <!-- Campo Confirmar Contraseña -->
-          <ion-item class="mb-4 rounded-lg" [class.item-valid]="isFieldValid('confirmPassword')" [class.item-invalid]="isFieldInvalid('confirmPassword')" style="--background: var(--ion-color-light);">
-            <ion-icon name="lock-closed-outline" slot="start"></ion-icon>
-            <ion-label position="stacked">Confirmar Contraseña *</ion-label>
-            <ion-input
-              type="password"
-              formControlName="confirmPassword"
-              placeholder="Repite tu contraseña">
-            </ion-input>
-          </ion-item>
-        </form>
-
-        <!-- Mensaje de Error -->
-        <ion-text color="danger" *ngIf="errorMessage">
-          <p class="text-center my-4 mx-0 text-sm" style="color: var(--ion-color-danger);">{{ errorMessage }}</p>
-        </ion-text>
-
-        <!-- Mensaje de Éxito -->
-        <ion-text color="success" *ngIf="successMessage">
-          <p class="text-center my-4 mx-0 text-sm flex items-center justify-center gap-2" style="color: var(--ion-color-success);">
-            <ion-icon name="checkmark-circle-outline"></ion-icon>
-            {{ successMessage }}
-          </p>
-        </ion-text>
-
-        <!-- Botón de Registro -->
+      <ion-button
+          expand="block"
+          fill="solid"
+          size="large"
+          shape="round"
+          color="primary"
+          (click)="register()"
+          class="!mt-8"
+          [disabled]="isSubmitDisabled">
+          Crear Cuenta
+        </ion-button>
 
 
-        <!-- Enlace para ir al Login -->
-        <!-- <div class="text-center mt-5">
-          <ion-text color="medium">
-            <p class="m-0 text-sm flex items-center justify-center gap-1">¿Ya tienes cuenta?
-              <ion-button
-                fill="clear"
-                size="small"
-                (click)="goToLogin()">
-                Inicia Sesión
-              </ion-button>
-            </p>
-          </ion-text>
-        </div> -->
 
         <!-- Botón de Testing - Solo desarrollo -->
-        <div class="text-center mt-2">
+        <div class="text-center mt-2 fixed top-3 right-3 ">
           <ion-button
             fill="clear"
             size="small"
             color="medium"
             (click)="goToOnboarding()"
-            style="font-size: 10px; height: 20px; --padding-start: 8px; --padding-end: 8px;">
+            class="text-white"
+            style="font-size: 12px; height: 20px; --padding-start: 8px; --padding-end: 8px;">
             🚀 Skip to Onboarding
           </ion-button>
         </div>
 
-      </ion-card-content>
-    </ion-card>
+
+    </div>
   </div>
 
 </ion-content>
-
-
-<ion-footer>
-  <ion-toolbar>
-    <ion-button
-          expand="block"
-          fill="solid"
-          (click)="register()"
-          class="register-button"
-          [disabled]="isSubmitDisabled">
-          Crear Cuenta
-        </ion-button>
-  </ion-toolbar>
-</ion-footer>
