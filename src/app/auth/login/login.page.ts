@@ -4,18 +4,9 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import {
   IonContent,
-  IonHeader,
-  IonTitle,
-  IonToolbar,
-  IonCard,
-  IonCardHeader,
-  IonCardTitle,
-  IonCardContent,
   IonItem,
-  IonLabel,
   IonInput,
   IonButton,
-  IonText,
   IonIcon
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
@@ -29,18 +20,9 @@ import { AuthService } from '../../services/auth.service';
   imports: [
     CommonModule,
     IonContent,
-    IonHeader,
-    IonTitle,
-    IonToolbar,
-    IonCard,
-    IonCardHeader,
-    IonCardTitle,
-    IonCardContent,
     IonItem,
-    IonLabel,
     IonInput,
     IonButton,
-    IonText,
     IonIcon,
     FormsModule
   ]

@@ -1,70 +1,90 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-button 
-      slot="start" 
-      fill="clear" 
-      (click)="goToWelcome()">
-      <ion-icon name="arrow-back-outline"></ion-icon>
-    </ion-button>
-    <ion-title>Iniciar Sesión</ion-title>
-  </ion-toolbar>
-</ion-header>
+<!-- Button float -->
+<ion-button
+  slot="start"
+  fill="clear"
+  class="fixed top-4 left-2 z-10 text-white"
+  (click)="goToWelcome()">
+  <ion-icon name="arrow-back-outline"></ion-icon>
+</ion-button>
 
-<ion-content [fullscreen]="true" style="--background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
-  <div class="flex justify-center items-center min-h-screen p-5">
-    <ion-card class="w-full max-w-sm mx-auto rounded-2xl shadow-2xl">
-      <ion-card-header class="text-center pb-0">
-        <ion-card-title class="text-3xl font-semibold text-center" style="color: var(--ion-color-primary);">Bienvenido</ion-card-title>
-      </ion-card-header>
-      
-      <ion-card-content>
-        <ion-item class="mb-4 rounded-lg" style="--background: var(--ion-color-light);">
-          <ion-icon name="person-outline" slot="start"></ion-icon>
-          <ion-label position="stacked">Email</ion-label>
-          <ion-input 
-            type="email" 
-            [(ngModel)]="email" 
+<ion-content [fullscreen]="true" class="ion-padding" style="--background: url('/assets/images/bg.jpg') no-repeat center center / cover;">
+
+  <!-- bg gradient & blur -->
+  <div class="fixed inset-0 z-0">
+    <div class="w-full h-full bg-[url('/assets/images/bg.jpg')] bg-cover bg-center blur-xs"></div>
+    <div class="absolute inset-0 bg-gradient-to-b from-transparent via-black/70 to-black pointer-events-none"></div>
+  </div>
+
+  <!-- content -->
+  <div class="z-10 p-2 relative flex items-start justify-center ">
+
+    <div class="mt-24 w-full">
+      <h1 class="text-white font-semibold font-heading text-4xl mb-8">
+        Bienvenido a GymApp
+      </h1>
+      <p class="mb-2 text-white/80">
+        Inicia sesión con:
+      </p>
+      <ion-button
+        expand="block"
+        fill="outline"
+        size="large"
+        shape="round"
+        color="secondary"
+        class="normal-case mb-6 !mt-0 ">
+        <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" class="w-5 h-5" alt="Google"
+          />
+        <span class="pl-3 text-base">Cuenta de Google</span>
+      </ion-button>
+      <p class="mb-2 text-white/80">
+        O continua con:
+      </p>
+
+
+    <form >
+      <!-- email -->
+      <ion-item
+        class="mb-4">
+          <ion-icon
+            name="person-outline"
+            slot="start"
+            size="default"
+            aria-hidden="true"
+            class="mr-2">
+          </ion-icon>
+          <ion-input
+            type="email"
+            [(ngModel)]="email"
             placeholder="Ingresa tu email">
           </ion-input>
-        </ion-item>
-
-        <ion-item class="mb-4 rounded-lg" style="--background: var(--ion-color-light);">
-          <ion-icon name="lock-closed-outline" slot="start"></ion-icon>
-          <ion-label position="stacked">Contraseña</ion-label>
-          <ion-input 
-            type="password" 
-            [(ngModel)]="password" 
-            placeholder="Ingresa tu contraseña">
-          </ion-input>
-        </ion-item>
-
-        <ion-text color="danger" *ngIf="errorMessage">
-          <p class="text-center my-4 text-sm">{{ errorMessage }}</p>
-        </ion-text>
-
-        <ion-button 
-          expand="block" 
-          fill="solid" 
-          (click)="login()" 
-          class="login-button">
-          Iniciar Sesión
-        </ion-button>
-
-        <!-- Enlace para crear cuenta -->
-        <div class="text-center mt-5 pt-4 border-t border-gray-200">
-          <ion-text color="medium">
-            <p class="m-0 text-sm flex items-center justify-center gap-1">¿No tienes cuenta? 
-              <ion-button 
-                fill="clear" 
-                size="small" 
-                (click)="goToRegister()">
-                Crear Cuenta
-              </ion-button>
-            </p>
-          </ion-text>
-        </div>
-
-      </ion-card-content>
-    </ion-card>
+      </ion-item>
+      <!-- password -->
+      <ion-item class="mb-4 rounded-lg" style="--background: var(--ion-color-light);">
+        <ion-icon
+          name="lock-closed-outline"
+          slot="start"
+          size="default"
+          aria-hidden="true"
+          class="mr-2">
+        </ion-icon>
+        <ion-input
+          type="password"
+          [(ngModel)]="password"
+          placeholder="Ingresa tu contraseña">
+        </ion-input>
+      </ion-item>
+    </form>
+    <ion-button
+      expand="block"
+      fill="solid"
+      size="large"
+      shape="round"
+      color="primary"
+      (click)="login()"
+      class="">
+      Iniciar Sesión
+    </ion-button>
+    </div>
   </div>
+
 </ion-content>

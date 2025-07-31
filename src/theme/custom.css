@@ -29,36 +29,36 @@
  * ============================================================================ */
 
 /* Cards de autenticación */
-.auth-card {
+/* .auth-card {
   box-shadow: var(--app-shadow-medium);
 }
 
 .auth-card.onboarding {
   box-shadow: var(--app-shadow-heavy);
-}
+} */
 
 /* Botones de autenticación */
-.login-button,
+/* .login-button,
 .register-button {
   margin-top: var(--app-spacing-lg);
   --border-radius: var(--app-border-radius-sm);
   font-weight: 600;
   transition: all 0.3s ease;
-}
+} */
 
-.register-button.onboarding {
+/* .register-button.onboarding {
   margin-top: 1.5rem;
   --border-radius: var(--app-border-radius-md);
   --background: var(--ion-color-primary);
   --background-hover: var(--ion-color-primary-shade);
   height: 48px;
-}
+} */
 
-.register-button[disabled] {
+/* .register-button[disabled] {
   opacity: 0.6;
   cursor: not-allowed;
   --background: var(--ion-color-medium) !important;
-}
+} */
 
 /* Estados de validación en formularios */
 .item-valid {
