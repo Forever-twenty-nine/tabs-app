@@ -1,7 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, signal, computed } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
 import {
   IonContent,
   IonCard,
@@ -28,12 +27,23 @@ import {
 import { AuthService } from '../../services/auth.service';
 import { Objetivo } from '../../enums/objetivo.enum';
 
+// Configuración del onboarding
+const ONBOARDING_CONFIG = {
+  STEPS: {
+    DATOS_PERSONALES: 1,
+    OBJETIVO: 2
+  },
+  MAX_STEPS: {
+    CLIENTE: 2,
+    OTROS: 1
+  }
+} as const;
+
 @Component({
   selector: 'app-onboarding',
   templateUrl: 'onboarding.page.html',
   standalone: true,
   imports: [
-    CommonModule,
     IonContent,
     IonCard,
     IonItem,
@@ -49,20 +59,31 @@ import { Objetivo } from '../../enums/objetivo.enum';
   ]
 })
 export class OnboardingPage {
-  currentStep: number = 1;
-  totalSteps: number = 2;
-
-  formData = {
+  // Signals para mejor reactividad
+  currentStep = signal<number>(ONBOARDING_CONFIG.STEPS.DATOS_PERSONALES);
+  totalSteps = signal<number>(ONBOARDING_CONFIG.MAX_STEPS.CLIENTE);
+  
+  formData = signal({
     nombre: '',
     role: 'cliente' as 'cliente' | 'entrenador' | 'gimnasio',
     objetivo: '' as keyof typeof Objetivo | ''
-  };
+  });
 
-  errorMessage: string = '';
-  isLoading: boolean = false;
+  errorMessage = signal('');
+  isLoading = signal(false);
+
+  // Computed properties
+  progress = computed(() => (this.currentStep() / this.totalSteps()) * 100);
+  isClient = computed(() => this.formData().role === 'cliente');
+  showStep2 = computed(() => this.currentStep() === ONBOARDING_CONFIG.STEPS.OBJETIVO && this.isClient());
 
   // Enum para el template
   objetivos = Objetivo;
+
+  // Métodos helper para actualizar formData
+  updateFormField<K extends keyof ReturnType<typeof this.formData>>(field: K, value: ReturnType<typeof this.formData>[K]) {
+    this.formData.update(current => ({ ...current, [field]: value }));
+  }
 
   constructor(
     private authService: AuthService,
@@ -96,21 +117,21 @@ export class OnboardingPage {
    * Avanza al siguiente paso
    */
   nextStep() {
-    if (this.currentStep === 1) {
+    if (this.currentStep() === ONBOARDING_CONFIG.STEPS.DATOS_PERSONALES) {
       if (!this.validateStep1()) {
         return;
       }
 
       // Si no es cliente, completar onboarding directamente
-      if (this.formData.role !== 'cliente') {
-        this.totalSteps = 1;
+      if (this.formData().role !== 'cliente') {
+        this.totalSteps.set(ONBOARDING_CONFIG.MAX_STEPS.OTROS);
         this.completeOnboarding();
         return;
       }
 
-      this.totalSteps = 2;
-      this.currentStep = 2;
-    } else if (this.currentStep === 2) {
+      this.totalSteps.set(ONBOARDING_CONFIG.MAX_STEPS.CLIENTE);
+      this.currentStep.set(ONBOARDING_CONFIG.STEPS.OBJETIVO);
+    } else if (this.currentStep() === ONBOARDING_CONFIG.STEPS.OBJETIVO) {
       if (!this.validateStep2()) {
         return;
       }
@@ -118,27 +139,57 @@ export class OnboardingPage {
     }
   }
 
+  // Validaciones mejoradas
+  private validationRules = {
+    nombre: (value: string) => {
+      if (!value.trim()) return 'Por favor, ingresa tu nombre completo';
+      if (value.trim().length < 2) return 'El nombre debe tener al menos 2 caracteres';
+      return null;
+    },
+    role: (value: string) => {
+      if (!value) return 'Por favor, selecciona tu tipo de usuario';
+      return null;
+    },
+    objetivo: (value: string, role: string) => {
+      if (role === 'cliente' && !value) return 'Por favor, selecciona tu objetivo principal';
+      return null;
+    }
+  };
+
+  private validateField(field: 'nombre' | 'role', value: string): string | null;
+  private validateField(field: 'objetivo', value: string, role: string): string | null;
+  private validateField(field: keyof typeof this.validationRules, value: string, role?: string): string | null {
+    if (field === 'objetivo' && role) {
+      return this.validationRules.objetivo(value, role);
+    }
+    if (field === 'nombre') {
+      return this.validationRules.nombre(value);
+    }
+    if (field === 'role') {
+      return this.validationRules.role(value);
+    }
+    return null;
+  }
+
   /**
    * Valida el primer paso (nombre y rol)
    */
   validateStep1(): boolean {
-    this.errorMessage = '';
-
-    if (!this.formData.nombre.trim()) {
-      this.errorMessage = 'Por favor, ingresa tu nombre completo';
+    const data = this.formData();
+    
+    const nombreError = this.validateField('nombre', data.nombre);
+    if (nombreError) {
+      this.errorMessage.set(nombreError);
       return false;
     }
 
-    if (this.formData.nombre.trim().length < 2) {
-      this.errorMessage = 'El nombre debe tener al menos 2 caracteres';
+    const roleError = this.validateField('role', data.role);
+    if (roleError) {
+      this.errorMessage.set(roleError);
       return false;
     }
 
-    if (!this.formData.role) {
-      this.errorMessage = 'Por favor, selecciona tu tipo de usuario';
-      return false;
-    }
-
+    this.errorMessage.set('');
     return true;
   }
 
@@ -146,13 +197,15 @@ export class OnboardingPage {
    * Valida el segundo paso (objetivo para clientes)
    */
   validateStep2(): boolean {
-    this.errorMessage = '';
-
-    if (this.formData.role === 'cliente' && !this.formData.objetivo) {
-      this.errorMessage = 'Por favor, selecciona tu objetivo principal';
+    const data = this.formData();
+    
+    const objetivoError = this.validateField('objetivo', data.objetivo, data.role);
+    if (objetivoError) {
+      this.errorMessage.set(objetivoError);
       return false;
     }
 
+    this.errorMessage.set('');
     return true;
   }
 
@@ -160,18 +213,19 @@ export class OnboardingPage {
    * Completa el proceso de onboarding
    */
   async completeOnboarding() {
-    this.isLoading = true;
-    this.errorMessage = '';
+    this.isLoading.set(true);
+    this.errorMessage.set('');
 
     try {
+      const data = this.formData();
       // Actualizar perfil del usuario
       const updateData: any = {
-        nombre: this.formData.nombre,
-        role: this.formData.role
+        nombre: data.nombre,
+        role: data.role
       };
 
-      if (this.formData.role === 'cliente' && this.formData.objetivo) {
-        updateData.objetivo = this.formData.objetivo;
+      if (data.role === 'cliente' && data.objetivo) {
+        updateData.objetivo = data.objetivo;
       }
 
       const result = await this.authService.updateProfile(updateData);
@@ -180,13 +234,13 @@ export class OnboardingPage {
         // Redirigir según el rol
         this.redirectToRolePage();
       } else {
-        this.errorMessage = result.message || 'Error al completar el perfil';
-        this.isLoading = false;
+        this.errorMessage.set(result.message || 'Error al completar el perfil');
+        this.isLoading.set(false);
       }
 
     } catch (error) {
-      this.errorMessage = 'Error al completar el perfil. Intenta nuevamente.';
-      this.isLoading = false;
+      this.errorMessage.set('Error al completar el perfil. Intenta nuevamente.');
+      this.isLoading.set(false);
     }
   }
 
@@ -194,7 +248,8 @@ export class OnboardingPage {
    * Redirige según el rol del usuario
    */
   redirectToRolePage() {
-    switch (this.formData.role) {
+    const role = this.formData().role;
+    switch (role) {
       case 'cliente':
         this.router.navigate(['/cliente-tabs']);
         break;
@@ -245,6 +300,6 @@ export class OnboardingPage {
    * Calcula el progreso del onboarding
    */
   getProgress(): number {
-    return (this.currentStep / this.totalSteps) * 100;
+    return this.progress();
   }
 }

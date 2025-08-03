@@ -114,6 +114,58 @@ export class AuthService {
     return false;
   }
 
+  /**
+   * Login mock con Google - simula autenticación con Google
+   */
+  async loginWithGoogle(): Promise<{ success: boolean; user?: User; message?: string }> {
+    try {
+      // Simular delay de autenticación con Google (más corto)
+      await new Promise(resolve => setTimeout(resolve, 1500));
+
+      // Mock: crear usuario cliente con datos de Google
+      const googleUser: User = {
+        username: 'Usuario Google',
+        email: 'usuario.google@gmail.com',
+        role: 'cliente'
+      };
+
+      this.isAuthenticated = true;
+      this.currentUser = googleUser;
+      
+      // Actualizar signals
+      this._isAuthenticatedSignal.set(true);
+      this._currentUserSignal.set(googleUser);
+      
+      try {
+        await this.storageService.set(this.STORAGE_KEY, 'google_authenticated');
+        await this.storageService.set(this.USER_KEY, googleUser);
+      } catch (error) {
+        console.error('Error saving Google auth to storage:', error);
+        // En caso de error, revertir el estado
+        this.isAuthenticated = false;
+        this.currentUser = null;
+        this._isAuthenticatedSignal.set(false);
+        this._currentUserSignal.set(null);
+        return {
+          success: false,
+          message: 'Error al guardar la sesión'
+        };
+      }
+      
+      return {
+        success: true,
+        user: googleUser,
+        message: 'Autenticación con Google exitosa'
+      };
+    } catch (error) {
+      console.error('Error en loginWithGoogle:', error);
+      return {
+        success: false,
+        message: 'Error al autenticar con Google'
+      };
+    }
+  }
+
   async logout(): Promise<void> {
     this.isAuthenticated = false;
     this.currentUser = null;
@@ -268,6 +320,53 @@ export class AuthService {
         message: 'Error al actualizar el perfil'
       };
     }
+  }
+
+  /**
+   * Método mock para resetear contraseña
+   */
+  async resetPassword(email: string): Promise<{ success: boolean; message: string }> {
+    try {
+      // Simular validación de email
+      if (!email || !this.isValidEmail(email)) {
+        return {
+          success: false,
+          message: 'Por favor, ingresa un email válido'
+        };
+      }
+
+      // Simular delay de red
+      await new Promise(resolve => setTimeout(resolve, 1500));
+
+      // Mock: verificar si el email existe en nuestros usuarios predefinidos
+      const validEmails = ['gimnasio@ftn.com', 'cliente@ftn.com', 'entrenador@ftn.com'];
+      
+      if (validEmails.includes(email)) {
+        return {
+          success: true,
+          message: `Se ha enviado un enlace de recuperación a ${email}. Revisa tu bandeja de entrada.`
+        };
+      } else {
+        return {
+          success: false,
+          message: 'No encontramos una cuenta asociada a este email'
+        };
+      }
+    } catch (error) {
+      console.error('Error en resetPassword:', error);
+      return {
+        success: false,
+        message: 'Ocurrió un error al procesar tu solicitud'
+      };
+    }
+  }
+
+  /**
+   * Valida el formato del email
+   */
+  private isValidEmail(email: string): boolean {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
   }
 
   /**

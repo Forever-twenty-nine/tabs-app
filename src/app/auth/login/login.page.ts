@@ -7,7 +7,8 @@ import {
   IonItem,
   IonInput,
   IonButton,
-  IonIcon
+  IonIcon,
+  AlertController
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { personOutline, lockClosedOutline, arrowBackOutline } from 'ionicons/icons';
@@ -34,7 +35,8 @@ export class LoginPage {
 
   constructor(
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private alertController: AlertController
   ) {
     addIcons({ arrowBackOutline, personOutline, lockClosedOutline });
   }
@@ -44,6 +46,13 @@ export class LoginPage {
    */
   goToRegister() {
     this.router.navigate(['/register']);
+  }
+
+  /**
+   * Navega a la página de recuperación de contraseña
+   */
+  goToForgotPassword() {
+    this.router.navigate(['/forgot-password']);
   }
 
   /**
@@ -85,6 +94,82 @@ export class LoginPage {
       }
     } catch (error) {
       this.errorMessage = 'Error al iniciar sesión';
+    }
+  }
+
+  /**
+   * Muestra alert de confirmación para Google y procesa login
+   */
+  async loginWithGoogle() {
+    const alert = await this.alertController.create({
+      header: 'Iniciar sesión con Google',
+      message: '¿Deseas continuar con Google? Se creará una cuenta de cliente automáticamente.',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel'
+        },
+        {
+          text: 'Continuar',
+          handler: async () => {
+            await this.processGoogleLogin();
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
+
+  /**
+   * Procesa el login con Google (mock)
+   */
+  private async processGoogleLogin() {
+    // Mostrar loading
+    const loading = await this.alertController.create({
+      header: 'Autenticando...',
+      message: 'Conectando con Google',
+      buttons: []
+    });
+    await loading.present();
+
+    try {
+      const result = await this.authService.loginWithGoogle();
+      
+      await loading.dismiss();
+      
+      if (result.success && result.user) {
+        // Mostrar mensaje de éxito
+        const successAlert = await this.alertController.create({
+          header: '¡Bienvenido!',
+          message: `Hola ${result.user.username}, has iniciado sesión exitosamente con Google.`,
+          buttons: [{
+            text: 'OK',
+            handler: () => {
+              // Redirigir como cliente
+              this.router.navigate(['/cliente-tabs']);
+            }
+          }]
+        });
+        await successAlert.present();
+      } else {
+        // Mostrar error
+        const errorAlert = await this.alertController.create({
+          header: 'Error',
+          message: result.message || 'Error al autenticar con Google',
+          buttons: ['OK']
+        });
+        await errorAlert.present();
+      }
+    } catch (error) {
+      await loading.dismiss();
+      
+      const errorAlert = await this.alertController.create({
+        header: 'Error',
+        message: 'Ocurrió un error inesperado',
+        buttons: ['OK']
+      });
+      await errorAlert.present();
     }
   }
 }

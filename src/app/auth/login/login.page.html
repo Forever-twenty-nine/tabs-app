@@ -31,7 +31,8 @@
         size="large"
         shape="round"
         color="secondary"
-        class="normal-case mb-6 !mt-0 ">
+        class="normal-case mb-6 !mt-0"
+        (click)="loginWithGoogle()">
         <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" class="w-5 h-5" alt="Google"
           />
         <span class="pl-3 text-base">Cuenta de Google</span>
@@ -84,6 +85,15 @@
       class="">
       Iniciar Sesión
     </ion-button>
+    
+    <div class="text-center mt-4">
+      <p class="text-white/80 text-sm">
+        ¿Olvidaste tu contraseña? 
+        <span class="text-blue-400 cursor-pointer underline" (click)="goToForgotPassword()">
+          Recupérala aquí
+        </span>
+      </p>
+    </div>
     </div>
   </div>
 
