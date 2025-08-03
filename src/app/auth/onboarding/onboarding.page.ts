@@ -2,12 +2,9 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { 
-  IonContent, 
+import {
+  IonContent,
   IonCard,
-  IonCardHeader,
-  IonCardTitle,
-  IonCardContent,
   IonItem,
   IonLabel,
   IonInput,
@@ -19,13 +16,14 @@ import {
   IonProgressBar
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { 
-  personOutline, 
-  peopleOutline, 
+import {
+  personOutline,
+  peopleOutline,
   bookmarkOutline,
   checkmarkCircleOutline,
   arrowForwardOutline,
-  fitnessOutline
+  fitnessOutline,
+  rocketOutline
 } from 'ionicons/icons';
 import { AuthService } from '../../services/auth.service';
 import { Objetivo } from '../../enums/objetivo.enum';
@@ -38,9 +36,6 @@ import { Objetivo } from '../../enums/objetivo.enum';
     CommonModule,
     IonContent,
     IonCard,
-    IonCardHeader,
-    IonCardTitle,
-    IonCardContent,
     IonItem,
     IonLabel,
     IonInput,
@@ -56,16 +51,16 @@ import { Objetivo } from '../../enums/objetivo.enum';
 export class OnboardingPage {
   currentStep: number = 1;
   totalSteps: number = 2;
-  
+
   formData = {
     nombre: '',
     role: 'cliente' as 'cliente' | 'entrenador' | 'gimnasio',
     objetivo: '' as keyof typeof Objetivo | ''
   };
-  
+
   errorMessage: string = '';
   isLoading: boolean = false;
-  
+
   // Enum para el template
   objetivos = Objetivo;
 
@@ -73,13 +68,14 @@ export class OnboardingPage {
     private authService: AuthService,
     private router: Router
   ) {
-    addIcons({ 
-      personOutline, 
+    addIcons({
+      personOutline,
       peopleOutline,
       bookmarkOutline,
       checkmarkCircleOutline,
       arrowForwardOutline,
-      fitnessOutline
+      fitnessOutline,
+      rocketOutline
     });
 
     // Para testing: simular usuario autenticado si no hay uno
@@ -104,14 +100,14 @@ export class OnboardingPage {
       if (!this.validateStep1()) {
         return;
       }
-      
+
       // Si no es cliente, completar onboarding directamente
       if (this.formData.role !== 'cliente') {
         this.totalSteps = 1;
         this.completeOnboarding();
         return;
       }
-      
+
       this.totalSteps = 2;
       this.currentStep = 2;
     } else if (this.currentStep === 2) {

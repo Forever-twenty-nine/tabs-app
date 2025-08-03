@@ -14,7 +14,7 @@
 --brand-secondary-color: #8e967b;
 --brand-tertiary-color: #50e3c2;
 --brand-success-color: #2dd36f;
---brand-warning-color: #ffc409;
+--brand-warning-color: #fecc28;
 --brand-danger-color: #eb445a;
 --brand-light-color: #f4f5f8;
 --brand-medium-color: #92949c;
@@ -31,6 +31,9 @@
 
   /* 2.a) - Ionic Color Variables */
   --ion-color-primary: var(--brand-primary-color);
+  --ion-color-primary-rgb: 126, 188, 8;
+  --ion-color-primary-contrast: #ffffff;
+  --ion-color-primary-contrast-rgb: 255,255,255;
   --ion-color-primary-shade: var(--brand-primary-shade);
   --ion-color-primary-tint: var(--brand-primary-tint);
 
@@ -88,6 +91,9 @@
    * 4) - Dark Theme - Ionic
    * ============================================================================ */
   --ion-color-primary: var(--brand-primary-color);
+  --ion-color-primary-rgb: 126, 188, 8;
+  --ion-color-primary-contrast: #000000;
+  --ion-color-primary-contrast-rgb: 0, 0, 0;
   --ion-color-primary-shade: var(--brand-primary-shade);
   --ion-color-primary-tint: var(--brand-primary-tint);
 

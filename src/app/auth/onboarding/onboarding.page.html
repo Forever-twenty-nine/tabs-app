@@ -1,33 +1,30 @@
 <ion-content
   [fullscreen]="true"
-  class="ion-padding"
-  style="--background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+  class="ion-padding bg-[var(--brand-light-color)]">
 
   <div class="p-2">
     <!-- Progress Bar -->
     <div class="p-4 pb-0 mb-10">
       <ion-text color="medium">
         <p
-          class="text-sm text-center mb-2 text-white/70">
+          class="text-sm text-[var(--brand-secondary-color)] text-center mb-2 ">
           Paso {{ currentStep }} de {{ totalSteps }}
         </p>
       </ion-text>
       <ion-progress-bar
         [value]="getProgress() / 100"
-        color="primary"
-        style="height: 6px; border-radius: 3px;">
+        color="primary">
       </ion-progress-bar>
     </div>
 
     <!-- Titulo -->
     <h1
       class="text-3xl font-heading font-semibold text-center mb-8">
-      ¡Bienvenido a GymApp!
+      ¡Bienvenido a <br>GymApp!
     </h1>
 
     <h2
-      class="text-white text-3xl font-semibold font-heading text-center"
-      style="color: var(--ion-color-primary)">
+      class="text-[var(--brand-primary-color)] text-3xl font-semibold font-heading text-center">
         <span *ngIf="currentStep === 1">
           Datos Personales
         </span>
@@ -37,7 +34,7 @@
     </h2>
 
     <p
-      class="text-white text-center text-lg mb-6">
+      class="text-[var(--brand-secondary-color)] text-center text-lg mb-8">
       <span *ngIf="currentStep === 1">
         Completaremos tu perfil
       </span>
@@ -93,20 +90,23 @@
         </ion-select>
       </ion-item>
       <!-- Descripción del rol -->
-      <ion-text color="medium" class="" *ngIf="formData.role">
-        <p class="text-white my-4 mx-0 p-3 rounded-lg text-sm flex items-center gap-2" style="background: var(--ion-color-light);">
+      <ion-card
+        color="warning"
+        class="!mx-0"
+        *ngIf="formData.role">
+        <p
+          class="text-center my-4 mx-0 p-3 text-base">
           <ion-icon name="fitness-outline"></ion-icon>
-          {{ getRoleDescription(formData.role) }}
+          <span class="block">{{ getRoleDescription(formData.role) }}</span>
         </p>
-      </ion-text>
+      </ion-card>
     </div>
 
     <!-- Paso 2: Objetivo (solo para clientes) -->
     <div *ngIf="currentStep === 2 && formData.role === 'cliente'">
       <!-- Campo Objetivo -->
           <ion-item
-            class="mb-4 rounded-lg"
-            style="--background: var(--ion-color-light);">
+            class="mb-4 rounded-lg bg-[--ion-color-light]">
             <ion-icon
               name="bookmark-outline"
               slot="start"
@@ -121,7 +121,7 @@
             <ion-select
               [(ngModel)]="formData.objetivo"
               placeholder="¿Cuál es tu meta?"
-              class="text-white/80">
+              class="">
               <ion-select-option value="BAJAR_PESO">{{ objetivos.BAJAR_PESO }}</ion-select-option>
               <ion-select-option value="AUMENTAR_MUSCULO">{{ objetivos.AUMENTAR_MUSCULO }}</ion-select-option>
               <ion-select-option value="MANTENER_PESO">{{ objetivos.MANTENER_PESO }}</ion-select-option>
@@ -129,28 +129,48 @@
           </ion-item>
 
           <!-- Descripción del objetivo -->
-          <ion-text color="medium" *ngIf="formData.objetivo">
-            <p class="my-2 mx-0 p-3 rounded-lg text-sm flex items-center gap-2" style="background: var(--ion-color-light);">
-              <ion-icon name="checkmark-circle-outline"></ion-icon>
-              {{ getObjetivoDescription(formData.objetivo) }}
+          <ion-card
+            color="warning"
+            class="!mx-0"
+            *ngIf="formData.role">
+            <p
+              class="text-center my-4 mx-0 p-3 text-base">
+              <ion-icon name="rocket-outline"></ion-icon>
+              <span class="block">{{ getObjetivoDescription(formData.objetivo) }}</span>
             </p>
-          </ion-text>
+          </ion-card>
+
     </div>
 
     <!-- Mensaje de Error -->
         <ion-text color="danger" *ngIf="errorMessage">
-          <p class="text-center my-4 mx-0 text-sm" style="color: var(--ion-color-danger);">{{ errorMessage }}</p>
+          <p class="text-center text-[var(--ion-color-danger)] my-4 mx-0 text-sm">{{ errorMessage }}</p>
         </ion-text>
 
         <!-- Botón Continuar/Finalizar -->
         <ion-button
           expand="block"
           fill="solid"
+          size="large"
+          shape="round"
+          color="primary"
           (click)="nextStep()"
-          class="mt-6"
+          class="!mt-8"
           [disabled]="isLoading">
-          <ion-icon name="arrow-forward-outline" slot="end" *ngIf="!isLoading && (currentStep < totalSteps || formData.role !== 'cliente')"></ion-icon>
-          <ion-icon name="checkmark-circle-outline" slot="end" *ngIf="!isLoading && currentStep === totalSteps && formData.role === 'cliente'"></ion-icon>
+          <!-- <ion-icon
+            name="arrow-forward-outline"
+            slot="end"
+            size="small"
+            class="ml-1"
+            *ngIf="!isLoading && (currentStep < totalSteps || formData.role !== 'cliente')">
+          </ion-icon>
+          <ion-icon
+            name="checkmark-circle-outline"
+            slot="end"
+            size="small"
+            class="ml-1"
+            *ngIf="!isLoading && currentStep === totalSteps && formData.role === 'cliente'">
+          </ion-icon> -->
 
           <span *ngIf="!isLoading && currentStep < totalSteps">Continuar</span>
           <span *ngIf="!isLoading && (currentStep === totalSteps || formData.role !== 'cliente')">Finalizar</span>

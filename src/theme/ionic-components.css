@@ -25,6 +25,9 @@ html.ios ion-button[fill="clean"][color="primary"] {
 }
 
 
+
+
+
 ion-toobar.gym-bg-transparent{
   --background: red !important;
 }
