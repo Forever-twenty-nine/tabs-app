@@ -32,7 +32,7 @@
         fill="outline"
         size="large"
         shape="round"
-        color="secondary"
+        color="primary"
         class="normal-case mb-6 !mt-0 ">
         <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" class="w-5 h-5" alt="Google"
           />
@@ -52,13 +52,13 @@
             slot="start"
             size="default"
             aria-hidden="true"
-            class="mr-2">
+            class="mr-2 text-white/60">
           </ion-icon>
           <ion-input
             type="email"
             formControlName="email"
             placeholder="Ingresa tu email"
-            class="">
+            class="bg-transparent !text-white">
           </ion-input>
         </ion-item>
         <!-- password -->
@@ -71,12 +71,13 @@
             slot="start"
             size="default"
             aria-hidden="true"
-            class="mr-2">
+            class="mr-2 text-white/60">
           </ion-icon>
           <ion-input
             type="password"
             formControlName="password"
-            placeholder="Ingresa una contraseña">
+            placeholder="Ingresa una contraseña"
+            class="bg-transparent !text-white">
           </ion-input>
         </ion-item>
         <!-- confirma password  -->
@@ -89,12 +90,13 @@
             slot="start"
             size="default"
             aria-hidden="true"
-            class="mr-2">
+            class="mr-2 text-white/60">
           </ion-icon>
           <ion-input
             type="password"
             formControlName="confirmPassword"
-            placeholder="Repite tu contraseña">
+            placeholder="Repite tu contraseña"
+            class="bg-transparent !text-white">
           </ion-input>
         </ion-item>
       </form>

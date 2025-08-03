@@ -9,7 +9,13 @@
  * https://ionicframework.com/docs/layout/global-stylesheets
  */
 
- /* 1) Ionic Styles
+/* 1) Importing Fonts
+* ---------------------------------------------------------------------------- */
+/* Import Core Ionic first */
+ @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap');
+ @import url('https://fonts.googleapis.com/css2?family=Exo:ital,wght@0,100..900;1,100..900&display=swap');
+
+ /* 2) Ionic Styles
  * ---------------------------------------------------------------------------- */
  /* Import Core Ionic first */
  @import "@ionic/angular/css/core.css";
@@ -25,23 +31,23 @@
  @import "@ionic/angular/css/flex-utils.css";
 
 
- /* 2) Ionic - Angular .dark class
+ /* 3) Ionic - Angular .dark class
  * ---------------------------------------------------------------------------- */
  @import '@ionic/angular/css/palettes/dark.system.css';
 
 
- /* 3) Variables del proyecto que reemplan las de Ionic
+ /* 4) Variables del proyecto que reemplan las de Ionic
  * ---------------------------------------------------------------------------- */
  @import "./theme/variables.css";
 
 
 
- /* 4) Ionic Components
+ /* 5) Ionic Components
  * ---------------------------------------------------------------------------- */
 @import "./theme/ionic-components.css";
 
 
- /* 5) Tailwind Styles (no pisa los estilos de ionic a no ser que se use "!"antes de la clase)
+ /* 6) Tailwind Styles (no pisa los estilos de ionic a no ser que se use "!"antes de la clase)
  * ---------------------------------------------------------------------------- */
  @import "tailwindcss";
 
@@ -50,7 +56,7 @@
   --font-heading: 'Exo', system-ui, sans-serif;
  }
 
- /* 6) Custom Styles
+ /* 7) Custom Styles
  * ---------------------------------------------------------------------------- */
  @import "./theme/custom.css";
 

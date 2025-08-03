@@ -13,6 +13,8 @@
 } */
 
 ion-button.button-large{
+  --padding-top: 20px;
+  --padding-bottom: 20px;
   font-size: 1.1rem;
 }
 
@@ -20,12 +22,15 @@ html.md ion-button[fill="clean"][color="primary"],
 html.ios ion-button[fill="clean"][color="primary"] {
   --color: var(--ion-color-primary);
   --background: transparent;
-  --padding-end: 0;
-  --padding-start: 0;
+  --padding-end: 8px;
+  --padding-start: 8px;
 }
 
 
-
+ion-spinner {
+  width: 18px;
+  height: 18px;
+}
 
 
 ion-toobar.gym-bg-transparent{
@@ -47,6 +52,7 @@ ion-toobar.gym-bg-transparent{
 
  /* Items - Configuración global */
  ion-item {
+  --background: rgba(255, 255, 255, 0.1);
    --border-radius: var(--app-border-radius-sm);
    --padding-start: var(--app-spacing-md);
    --padding-end: var(--app-spacing-md);
