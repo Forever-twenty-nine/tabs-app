@@ -5,7 +5,6 @@ import { CommonModule } from '@angular/common';
 import {
   IonContent,
   IonItem,
-  IonLabel,
   IonInput,
   IonButton,
   IonText,

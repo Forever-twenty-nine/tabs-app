@@ -101,12 +101,12 @@
 
       <!-- Mensaje de Error -->
       <ion-text color="danger" *ngIf="errorMessage">
-        <p class="text-center my-4 mx-0 text-sm" style="color: var(--ion-color-danger);">{{ errorMessage }}</p>
+        <p class="text-center my-4 mx-0 text-sm text-[var(--ion-color-danger)]">{{ errorMessage }}</p>
       </ion-text>
 
       <!-- Mensaje de Éxito -->
       <ion-text color="success" *ngIf="successMessage">
-        <p class="text-center my-4 mx-0 text-sm flex items-center justify-center gap-2" style="color: var(--ion-color-success);">
+        <p class="text-center my-4 mx-0 text-sm flex items-center justify-center gap-2 text-[var(--ion-color-success)]">
           <ion-icon name="checkmark-circle-outline"></ion-icon>
           {{ successMessage }}
         </p>
@@ -133,8 +133,7 @@
             size="small"
             color="medium"
             (click)="goToOnboarding()"
-            class="text-white"
-            style="font-size: 12px; height: 20px; --padding-start: 8px; --padding-end: 8px;">
+            class="text-white text-sm">
             🚀 Skip to Onboarding
           </ion-button>
         </div>
