@@ -55,6 +55,7 @@
           </ion-icon>
           <ion-input
             type="email"
+            name="email"
             [(ngModel)]="email"
             placeholder="Ingresa tu email"
             class="bg-transparent !text-white">
@@ -71,6 +72,7 @@
         </ion-icon>
         <ion-input
           type="password"
+          name="password"
           [(ngModel)]="password"
           placeholder="Ingresa tu contraseña"
           class="bg-transparent !text-white">
@@ -89,6 +91,14 @@
         </ion-button>
       </div>
     </form>
+    
+    <!-- Error message -->
+    @if (errorMessage) {
+      <div class="mb-4 p-3 bg-red-500/20 border border-red-500/50 rounded-lg">
+        <p class="text-red-200 text-sm">{{ errorMessage }}</p>
+      </div>
+    }
+    
     <ion-button
       expand="block"
       fill="solid"

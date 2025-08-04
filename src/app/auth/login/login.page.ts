@@ -72,6 +72,7 @@ export class LoginPage {
 
     try {
       const success = await this.authService.login(this.email, this.password);
+      
       if (success) {
         const user = this.authService.getCurrentUser();
 
