@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { 
-  IonHeader, 
-  IonToolbar, 
-  IonTitle, 
+import {
+  IonHeader,
+  IonToolbar,
+  IonTitle,
   IonContent,
   IonCard,
   IonCardHeader,
@@ -18,13 +18,14 @@ import {
   IonRow,
   IonCol,
   IonChip,
-  IonAvatar
-} from '@ionic/angular/standalone';
+  IonAvatar, IonText, IonImg } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { 
-  statsChartOutline, 
-  fitnessOutline, 
-  personOutline, 
+import {
+  statsChartOutline,
+  fitnessOutline,
+  personOutline,
+  notificationsOutline,
+  medalOutline,
   checkmarkCircleOutline
 } from 'ionicons/icons';
 import { AuthService } from '../../services/auth.service';
@@ -35,7 +36,7 @@ import { Router } from '@angular/router';
   templateUrl: './dashboard.page.html',
   styleUrls: ['./dashboard.page.css'],
   standalone: true,
-  imports: [
+  imports: [IonImg, IonText,
     CommonModule,
     IonHeader,
     IonToolbar,
@@ -75,11 +76,13 @@ export class DashboardPage implements OnInit {
   constructor(
     private authService: AuthService,
     private router: Router
-  ) { 
+  ) {
     addIcons({
       statsChartOutline,
       fitnessOutline,
       personOutline,
+      medalOutline,
+      notificationsOutline,
       checkmarkCircleOutline
     });
   }
