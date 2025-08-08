@@ -24,8 +24,8 @@ import {
   fitnessOutline,
   rocketOutline
 } from 'ionicons/icons';
-import { AuthService } from '../../services/auth.service';
-import { Objetivo } from '../../enums/objetivo.enum';
+import { AuthService } from '../../core/services/auth.service';
+import { Objetivo } from '../../core/enums/objetivo.enum';
 
 // Configuración del onboarding
 const ONBOARDING_CONFIG = {
@@ -107,10 +107,8 @@ export class OnboardingPage {
    * Inicializa el componente para testing
    */
   async initializeForTesting() {
-    // Si no hay usuario autenticado, simular uno para testing
-    if (!this.authService.currentUser$()) {
-      await this.authService.simulateAuthenticatedUser();
-    }
+    // solo mock
+    console.log('Inicializando Onboarding para testing');
   }
 
   /**
@@ -213,35 +211,8 @@ export class OnboardingPage {
    * Completa el proceso de onboarding
    */
   async completeOnboarding() {
-    this.isLoading.set(true);
-    this.errorMessage.set('');
-
-    try {
-      const data = this.formData();
-      // Actualizar perfil del usuario
-      const updateData: any = {
-        nombre: data.nombre,
-        role: data.role
-      };
-
-      if (data.role === 'cliente' && data.objetivo) {
-        updateData.objetivo = data.objetivo;
-      }
-
-      const result = await this.authService.updateProfile(updateData);
-
-      if (result.success) {
-        // Redirigir según el rol
-        this.redirectToRolePage();
-      } else {
-        this.errorMessage.set(result.message || 'Error al completar el perfil');
-        this.isLoading.set(false);
-      }
-
-    } catch (error) {
-      this.errorMessage.set('Error al completar el perfil. Intenta nuevamente.');
-      this.isLoading.set(false);
-    }
+    //solo mock
+    this.router.navigate(['/welcome']);
   }
 
   /**

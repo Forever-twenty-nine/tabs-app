@@ -12,7 +12,7 @@ import {
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { mailOutline, arrowBackOutline } from 'ionicons/icons';
-import { AuthService } from '../../services/auth.service';
+import { AuthService } from '../../core/services/auth.service';
 
 @Component({
   selector: 'app-forgot-password',
@@ -88,32 +88,7 @@ export class ForgotPasswordPage {
    * Envía el enlace de recuperación de contraseña
    */
   async resetPassword() {
-    if (!this.isEmailValid()) {
-      this.emailError = 'Por favor, ingresa un email válido';
-      return;
-    }
-
-    this.isLoading = true;
-    this.emailError = '';
-    this.successMessage = '';
-
-    try {
-      const result = await this.authService.resetPassword(this.email);
-      
-      if (result.success) {
-        this.successMessage = result.message;
-        // Opcional: redirigir a login después de unos segundos
-        setTimeout(() => {
-          this.goToLogin();
-        }, 3000);
-      } else {
-        this.emailError = result.message;
-      }
-    } catch (error) {
-      console.error('Error al enviar enlace de recuperación:', error);
-      this.emailError = 'Ocurrió un error inesperado. Inténtalo de nuevo.';
-    } finally {
-      this.isLoading = false;
-    }
+    //solo de mock
+    this.successMessage = 'Se ha enviado un enlace de recuperación a tu email';
   }
 }

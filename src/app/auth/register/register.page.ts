@@ -17,7 +17,7 @@ import {
   checkmarkCircleOutline,
   arrowBackOutline
 } from 'ionicons/icons';
-import { AuthService } from '../../services/auth.service';
+import { AuthService } from '../../core/services/auth.service';
 
 @Component({
   selector: 'app-register',
@@ -178,45 +178,9 @@ export class RegisterPage {
    * Registra un nuevo usuario
    */
   async register() {
-    // Marcar todos los campos como tocados para mostrar errores
-    this.registerForm.markAllAsTouched();
-
-    if (!this.validateForm()) {
-      return;
-    }
-
-    try {
-      this.errorMessage = '';
-      this.successMessage = '';
-
-      const formValues = this.registerForm.value;
-
-      // Generar username automáticamente
-      const generatedUsername = this.generateUsername(formValues.email);
-
-      // Llamar al servicio de registro
-      const result = await this.authService.register({
-        username: generatedUsername,
-        email: formValues.email,
-        password: formValues.password
-      });
-
-      if (result.success) {
-        this.successMessage = '¡Registro exitoso! Redirigiendo...';
-        this.updateSubmitButtonState(); // Actualizar estado del botón
-
-        // Redirigir al onboarding después del registro
-        setTimeout(() => {
-          this.router.navigate(['/onboarding']);
-        }, 1500);
-      } else {
-        this.errorMessage = result.message;
-      }
-
-    } catch (error) {
-      this.errorMessage = 'Error al registrar usuario. Intenta nuevamente.';
-      this.successMessage = '';
-    }
+    // solo mock
+    console.log('Registrando usuario...');
+    this.router.navigate(['/onboarding']);
   }
 
   /**

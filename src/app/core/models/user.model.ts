@@ -11,11 +11,11 @@ export interface User {
   uid: string;
   nombre: string;
   email: string;
+  username?: string;
+  role?: Rol;
   onboarded?: boolean;
-  roles: Rol[]; 
+  roles: Rol[];
   permisos?: Permiso[];
-  // Configuración de tabs específica para clientes
   clienteTabsSet?: ClienteTabsSet;
-  // Configuración de tabs específica para gimnasios
   gimnasioTabsSet?: GimnasioTabsSet;
 }

@@ -27,7 +27,7 @@ import {
   personOutline, 
   checkmarkCircleOutline
 } from 'ionicons/icons';
-import { AuthService } from '../../services/auth.service';
+import { AuthService } from '../../core/services/auth.service';
 import { Router } from '@angular/router';
 
 @Component({
