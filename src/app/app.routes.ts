@@ -1,5 +1,4 @@
 import { Routes } from '@angular/router';
-import { authGuard } from './guards/auth.guard';
 import { clienteGuard, entrenadorGuard, gimnasioGuard } from './guards/role.guard';
 
 export const routes: Routes = [
@@ -35,16 +34,16 @@ export const routes: Routes = [
   {
     path: 'gimnasio-tabs',
     loadChildren: () => import('./gimnasio/gimnasio-tabs/gimnasio-tabs.routes').then((m) => m.routes),
-    canActivate: [authGuard, gimnasioGuard]
+    canActivate: [gimnasioGuard]
   },
   {
     path: 'cliente-tabs',
     loadChildren: () => import('./cliente/cliente-tabs/cliente-tabs.routes').then((m) => m.routes),
-    canActivate: [authGuard, clienteGuard]
+    //canActivate: [clienteGuard]
   },
   {
     path: 'entrenador-tabs',
     loadChildren: () => import('./entrenador/entrenador-tabs/entrenador-tabs.routes').then((m) => m.routes),
-    canActivate: [authGuard, entrenadorGuard]
+    canActivate: [entrenadorGuard]
   },
 ];

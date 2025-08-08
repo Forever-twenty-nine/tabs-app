@@ -1,135 +1,135 @@
-import { Injectable, signal, computed, inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { StorageService } from './storage.service';
-import { Auth,GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup } from '@angular/fire/auth';
+import { UserService } from './user.service';
+import { Auth, GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup } from '@angular/fire/auth';
 import { User } from '../models/user.model';
 import { Rol } from '../enums/rol.enum';
+import { Router } from '@angular/router';
+import { Firestore, doc, getDoc } from '@angular/fire/firestore';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({ providedIn: 'root' })
 export class AuthService {
-  
-  // Elimina la propiedad de clase para evitar el warning de AngularFire
-
   private isAuthenticated = false;
-  private currentUser: User | null = null;
   private readonly STORAGE_KEY = 'auth_token';
-  private readonly USER_KEY = 'current_user';
 
-  // Signals para estado reactivo
-  private _currentUserSignal = signal<User | null>(null);
-  private _isAuthenticatedSignal = signal<boolean>(false);
-  private _isInitializedSignal = signal<boolean>(false);
+  constructor(
+    private storageService: StorageService,
+    private auth: Auth,
+    private userService: UserService,
+    private router: Router,
+    private firestore: Firestore
+  ) {}
 
-  // Signals públicos (readonly)
-  public readonly currentUser$ = this._currentUserSignal.asReadonly();
-  public readonly isAuthenticated$ = this._isAuthenticatedSignal.asReadonly();
-  public readonly isInitialized$ = this._isInitializedSignal.asReadonly();
-
-  // Computed signals para roles
-  /** Computed signals para roles usando role o roles[0] */
-  private getUserRole(user: User | null): Rol | undefined {
-    return user?.role ?? user?.roles?.[0];
-  }
-  public readonly isGimnasio$ = computed(() => this.getUserRole(this.currentUser$()) === Rol.GIMNASIO);
-  public readonly isCliente$ = computed(() => this.getUserRole(this.currentUser$()) === Rol.CLIENTE);
-  public readonly isEntrenador$ = computed(() => this.getUserRole(this.currentUser$()) === Rol.ENTRENADOR);
-  public readonly isAdmin$ = computed(() => this.isGimnasio$());
-
-  constructor(private storageService: StorageService) {}
-
-  /** Login con Google y actualiza el estado con el modelo User */
   async loginWithGoogle(): Promise<boolean> {
     try {
-      const auth = inject(Auth);
       const provider = new GoogleAuthProvider();
-      const cred = await signInWithPopup(auth, provider);
+      const cred = await signInWithPopup(this.auth, provider);
       const firebaseUser = cred.user;
       if (firebaseUser) {
-        const newUser: User = {
-          uid: firebaseUser.uid,
-          nombre: firebaseUser.displayName || firebaseUser.email || 'Google User',
-          email: firebaseUser.email || '',
-          username: firebaseUser.displayName || firebaseUser.email || 'google_user',
-          role: Rol.CLIENTE,
-          roles: [Rol.CLIENTE]
-        };
+        // 🔥 Consulta Firestore para obtener el usuario real
+        const userDocRef = doc(this.firestore, `usuarios/${firebaseUser.uid}`);
+        const userSnap = await getDoc(userDocRef);
+        let newUser: User;
+        if (userSnap.exists()) {
+          newUser = userSnap.data() as User;
+        } else {
+          // Si no existe, crea usuario básico
+          newUser = {
+            uid: firebaseUser.uid,
+            nombre: firebaseUser.displayName || firebaseUser.email || 'Google User',
+            email: firebaseUser.email || '',
+            role: undefined,
+            onboarded: false
+          };
+        }
+        // Inferir el rol si no está definido
+        if (!newUser.role) {
+          if (newUser.entrenadorId) {
+            newUser.role = 'entrenador';
+          } else if (newUser.gimnasioId) {
+            newUser.role = 'gimnasio';
+          } else if (newUser.roles && newUser.roles.length > 0) {
+            newUser.role = newUser.roles[0];
+          } else {
+            newUser.role = 'cliente';
+          }
+        }
         const token = await firebaseUser.getIdToken();
-        await this.saveUserSession(newUser, token);
+        await this.userService.setUser(newUser);
+        await this.storageService.set(this.STORAGE_KEY, token);
+        this.isAuthenticated = true;
+        this.redirectByRole();
         return true;
       }
       return false;
     } catch (error) {
-      return false;
+      throw error;
     }
   }
-  /** Login con email y contraseña y actualiza el estado con el modelo User */
+
   async login(email: string, password: string): Promise<void> {
-    const auth = inject(Auth);
-    const cred = await signInWithEmailAndPassword(auth, email, password);
+    const cred = await signInWithEmailAndPassword(this.auth, email, password);
     const firebaseUser = cred.user;
     if (firebaseUser) {
-      const newUser: User = {
-        uid: firebaseUser.uid,
-        nombre: firebaseUser.displayName || firebaseUser.email || 'Usuario',
-        email: firebaseUser.email || '',
-        username: firebaseUser.displayName || firebaseUser.email || 'user',
-        role: Rol.CLIENTE,
-        roles: [Rol.CLIENTE]
-      };
+      // 🔥 Consulta Firestore para obtener el usuario real
+      const userDocRef = doc(this.firestore, `usuarios/${firebaseUser.uid}`);
+      const userSnap = await getDoc(userDocRef);
+      let newUser: User;
+      if (userSnap.exists()) {
+        newUser = userSnap.data() as User;
+      } else {
+        newUser = {
+          uid: firebaseUser.uid,
+          nombre: firebaseUser.displayName || firebaseUser.email || 'Usuario',
+          email: firebaseUser.email || '',
+          role: undefined,
+          onboarded: false
+        };
+      }
+      // Inferir el rol si no está definido
+      if (!newUser.role) {
+        if (newUser.entrenadorId) {
+          newUser.role = 'entrenador';
+        } else if (newUser.gimnasioId) {
+          newUser.role = 'gimnasio';
+        } else if (newUser.roles && newUser.roles.length > 0) {
+          newUser.role = newUser.roles[0];
+        } else {
+          newUser.role = 'cliente';
+        }
+      }
       const token = await firebaseUser.getIdToken();
-      await this.saveUserSession(newUser, token);
+      await this.userService.setUser(newUser);
+      await this.storageService.set(this.STORAGE_KEY, token);
+      this.isAuthenticated = true;
+      this.redirectByRole();
+    }
+  }
+  redirectByRole(): void {
+    const user = this.userService.getCurrentUser();
+    const role = user?.role;
+    switch (role) {
+      case 'gimnasio':
+        this.router.navigate(['/gimnasio-tabs']);
+        break;
+      case 'entrenador':
+        this.router.navigate(['/entrenador-tabs']);
+        break;
+      case 'cliente':
+        this.router.navigate(['/cliente-tabs']);
+        break;
+      default:
+        this.router.navigate(['/cliente-tabs']);
     }
   }
 
-  /** Guarda el usuario y token en storage y actualiza signals */
-  private async saveUserSession(user: User, token: string): Promise<void> {
-    this.isAuthenticated = true;
-    this.currentUser = user;
-    this._isAuthenticatedSignal.set(true);
-    this._currentUserSignal.set(user);
-    await this.storageService.set(this.STORAGE_KEY, token);
-    await this.storageService.set(this.USER_KEY, user);
-  }
-
-  /** Logout del usuario */
   async logout(): Promise<void> {
     this.isAuthenticated = false;
-    this.currentUser = null;
-    this._isAuthenticatedSignal.set(false);
-    this._currentUserSignal.set(null);
-    
+    await this.userService.clearUser();
     try {
       await this.storageService.remove(this.STORAGE_KEY);
-      await this.storageService.remove(this.USER_KEY);
     } catch (error) {
-      console.error('Error removing from storage:', error);
+  // Error al eliminar el token del storage
     }
   }
-
-  isLoggedIn(): boolean {
-    return this.isAuthenticated;
-  }
-
-  getCurrentUser(): User | null {
-    return this.currentUser;
-  }
-
-  isGimnasio(): boolean {
-    return this.getUserRole(this.currentUser) === Rol.GIMNASIO;
-  }
-
-  isCliente(): boolean {
-    return this.getUserRole(this.currentUser) === Rol.CLIENTE;
-  }
-
-  isEntrenador(): boolean {
-    return this.getUserRole(this.currentUser) === Rol.ENTRENADOR;
-  }
-
-  // Mantener compatibilidad con código existente
-  isAdmin(): boolean {
-    return this.isGimnasio();
-  }
-
 }

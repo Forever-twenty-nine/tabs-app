@@ -14,6 +14,7 @@ import {
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { logOutOutline } from 'ionicons/icons';
+import { UserService } from '../../core/services/user.service';
 import { AuthService } from '../../core/services/auth.service';
 import { User } from '../../core/models/user.model';
 
@@ -39,6 +40,7 @@ export class Tab3Page implements OnInit {
   currentUser: User | null = null;
 
   constructor(
+    private userService: UserService,
     private authService: AuthService,
     private router: Router
   ) {
@@ -46,7 +48,8 @@ export class Tab3Page implements OnInit {
   }
 
   ngOnInit() {
-    this.currentUser = this.authService.getCurrentUser();
+    this.currentUser = this.userService.getCurrentUser();
+   
   }
 
   async logout() {
@@ -55,7 +58,6 @@ export class Tab3Page implements OnInit {
       this.router.navigate(['/login']);
     } catch (error) {
       console.error('Error during logout:', error);
-      // Aún así navegar a login en caso de error
       this.router.navigate(['/login']);
     }
   }

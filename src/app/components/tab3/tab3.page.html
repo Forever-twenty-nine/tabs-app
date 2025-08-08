@@ -16,10 +16,10 @@
   <div class="profile-content">
     <ion-item *ngIf="currentUser">
       <ion-label>
-        <h2>{{ currentUser.username }}</h2>
+        <h2>{{ currentUser.nombre }}</h2>
         <p>Tipo de usuario: 
-          <ion-badge [color]="getBadgeColor(currentUser.role)">
-            {{ getRoleDisplayName(currentUser.role) }}
+          <ion-badge [color]="getBadgeColor(currentUser.role ?? '')">
+            {{ getRoleDisplayName(currentUser.role ?? '') }}
           </ion-badge>
         </p>
       </ion-label>

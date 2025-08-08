@@ -14,6 +14,7 @@ import {
 import { addIcons } from 'ionicons';
 import { personOutline, lockClosedOutline, arrowBackOutline } from 'ionicons/icons';
 import { AuthService } from '../../core/services/auth.service';
+import { UserService } from '../../core/services/user.service';
 
 @Component({
   selector: 'app-login',
@@ -36,29 +37,19 @@ export class LoginPage {
 
   constructor(
     private authService: AuthService,
+    private userService: UserService,
     private router: Router,
-    private alertController: AlertController
   ) {
     addIcons({ arrowBackOutline, personOutline, lockClosedOutline });
   }
 
-  /**
-   * Navega a la página de registro
-   */
   goToRegister() {
     this.router.navigate(['/register']);
   }
-
-  /**
-   * Navega a la página de recuperación de contraseña
-   */
   goToForgotPassword() {
     this.router.navigate(['/forgot-password']);
   }
 
-  /**
-   * Navega de vuelta a la página de bienvenida
-   */
   goToWelcome() {
     this.router.navigate(['/welcome']);
   }
@@ -71,25 +62,11 @@ export class LoginPage {
     }
     try {
       await this.authService.login(this.email, this.password);
-      const user = this.authService.getCurrentUser();
-      if (user) {
-        // Redirigir según el rol del usuario
-        switch (user.role ?? user.roles?.[0]) {
-          case Rol.GIMNASIO:
-            this.router.navigate(['/gimnasio-tabs']);
-            break;
-          case Rol.CLIENTE:
-            this.router.navigate(['/cliente-tabs']);
-            break;
-          case Rol.ENTRENADOR:
-            this.router.navigate(['/entrenador-tabs']);
-            break;
-          default:
-            this.router.navigate(['/cliente-tabs']);
-        }
-      } else {
+      const user = this.userService.getCurrentUser();
+      if (!user) {
         this.errorMessage = 'Email o contraseña incorrectos';
       }
+      // La redirección la maneja el AuthService
     } catch (error) {
       this.errorMessage = 'Error al iniciar sesión';
     }
@@ -98,13 +75,13 @@ export class LoginPage {
   async loginWithGoogle(): Promise<void> {
     try {
       const success = await this.authService.loginWithGoogle();
-      if (success) {
-        this.router.navigate(['/cliente-tabs']);
-      } else {
+      if (!success) {
         this.errorMessage = 'Error al autenticar con Google';
       }
-    } catch (error) {
-      this.errorMessage = 'Ocurrió un error inesperado';
+      // La redirección la maneja el AuthService
+    } catch (error: any) {
+      this.errorMessage = error?.message || 'Ocurrió un error inesperado';
+      console.error('Google login error:', error);
     }
   }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { 
   IonHeader, 
@@ -22,13 +22,12 @@ import {
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { 
-  statsChartOutline, 
+  statsChartOutline,
   fitnessOutline, 
   personOutline, 
-  checkmarkCircleOutline
+  checkmarkCircleOutline,
+  timeOutline
 } from 'ionicons/icons';
-import { AuthService } from '../../core/services/auth.service';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
@@ -57,7 +56,7 @@ import { Router } from '@angular/router';
     IonAvatar
   ]
 })
-export class DashboardPage implements OnInit {
+export class DashboardPage {
 
   clienteInfo = {
     nombre: 'Ana García',
@@ -73,22 +72,16 @@ export class DashboardPage implements OnInit {
   ];
 
   constructor(
-    private authService: AuthService,
-    private router: Router
   ) { 
     addIcons({
       statsChartOutline,
       fitnessOutline,
       personOutline,
-      checkmarkCircleOutline
+      checkmarkCircleOutline,
+      timeOutline
     });
   }
 
-  ngOnInit() {
-    if (!this.authService.isCliente()) {
-      this.router.navigate(['/login']);
-    }
-  }
 
   verRutina(rutina: any) {
     // Navegar al detalle de la rutina
